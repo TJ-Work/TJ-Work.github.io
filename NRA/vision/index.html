@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>机器人视觉 - Nao机器人手册</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "\u673a\u5668\u4eba\u89c6\u89c9";
+    var mkdocs_page_input_path = "vision.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Nao机器人手册</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">简介</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../basic/">基本操作</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../motion/">机器人运动</a>
+                    </li>
+                </ul>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">机器人视觉</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#alphotocapture">ALPhotoCapture模块</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#alphotocapturegetcameraid">ALPhotoCapture.getCameraID()</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#alphotocapturegetcaptureintervaldelay">ALPhotoCapture.getCaptureInterval(delay)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#alphotocapturesetcameraid-cameraid">ALPhotoCapture.setCameraID (cameraID)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#alphotocapturesetcaptureinterval-captureinterval">ALPhotoCapture.setCaptureInterval (captureInterval)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#alphotocapturetakepicturefolderpathfilename">ALPhotoCapture.takePicture(folderPath，fileName)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#alphotocapturesetresolution-resolution">ALPhotoCapture.setResolution (resolution)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#alphotocapturesetpictureformatpictureformat">ALPhotoCapture.setPictureFormat(pictureFormat)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#alphotocapturetakepicturesnubmerofpictures-folderpathfilename">ALPhotoCapture.takePictures(nubmerOfPictures, folderPath，fileName)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_2">实例</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#alvideodevice">ALVideoDevice模块</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#alvideodevicesubscribecameraname-cameraindex-resolution-colorspace-fps">ALVideoDevice.subscribeCamera(Name, CameraIndex, Resolution, ColorSpace, Fps)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#alvideodevicegetimagelocalhandle">ALVideoDevice.getImageLocal(Handle)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#alvideodevicegetimageremotehandle">ALVideoDevice.getImageRemote(Handle)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#alvideodevicereleaseimagehandle">ALVideoDevice.releaseImage(Handle)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#alvideodeviceunsubscribehandle">ALVideoDevice.unsubscribe(Handle)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_3">用法</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#alvideorecorder">ALVideoRecorder模块</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#alvideorecordersetcameraidcameraid">ALVideoRecorder.setCameraID(cameraID)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#alvideorecordersetcolorspacecolorspace">ALVideoRecorder.setColorSpace(colorSpace)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#alvideorecordersetframerateframerate">ALVideoRecorder.setFrameRate(frameRate)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#alvideorecordersetresolutionresolution">ALVideoRecorder.setResolution(resolution)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#alvideorecordersetvideoformatvideoformat">ALVideoRecorder.setVideoFormat(videoFormat)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#alvideorecorderstartrecordingfolderpath-filename">ALVideoRecorder.startRecording(folderPath, fileName)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#alvideorecorderstoprecording">ALVideoRecorder.stopRecording()</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_4">实例</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#alredballdetection">ALRedBallDetection模块</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#alvisionrecognition">ALVisionRecognition模块</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#_5">检测结果</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#alvisionrecognitiondetectfromfile-filename">ALVisionRecognition.detectFromFile (filename)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#alvisionrecognitionlearnfromfile-filename-name-tags-iswholeimage-forced">ALVisionRecognition.learnFromFile (filename, name, tags, isWholeImage, forced)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_6">实例</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#allocalization">ALLocalization模块</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#allocalizationlearnhome">ALLocalization.learnHome()</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#allocalizationgetrobotpositionactive">ALLocalization.getRobotPosition(active)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#allocalizationgotohome">ALLocalization.goToHome ()</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_7">实例</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../audio/">机器人听觉</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../emotion/">机器人情绪感知</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../dance/">机器人跳舞实例解析</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../kick_ball/">机器人踢球实例解析</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Nao机器人手册</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>机器人视觉</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h2 id="_1">机器人视觉<a class="headerlink" href="#_1" title="Permanent link">#</a></h2>
+<h3 id="alphotocapture">ALPhotoCapture模块<a class="headerlink" href="#alphotocapture" title="Permanent link">#</a></h3>
+<p><code>ALPhotoCapture</code>模块允许你使用机器人相机拍摄照片，并保存到磁盘上。</p>
+<h4 id="alphotocapturegetcameraid"><code>ALPhotoCapture.getCameraID()</code><a class="headerlink" href="#alphotocapturegetcameraid" title="Permanent link">#</a></h4>
+<p>返回用于拍照的摄像头ID</p>
+<blockquote>
+<p><strong><em>Returns</em></strong>: </p>
+<p><code>camera ID</code> - 摄像头ID</p>
+</blockquote>
+<h4 id="alphotocapturegetcaptureintervaldelay"><code>ALPhotoCapture.getCaptureInterval(delay)</code><a class="headerlink" href="#alphotocapturegetcaptureintervaldelay" title="Permanent link">#</a></h4>
+<p>返回当前两幅图片之间的延迟(以毫秒为单位)。</p>
+<blockquote>
+<p><strong><em>Returns</em></strong>: </p>
+<p><code>delay(ms)</code> - 延时</p>
+</blockquote>
+<h4 id="alphotocapturesetcameraid-cameraid"><code>ALPhotoCapture.setCameraID (cameraID)</code><a class="headerlink" href="#alphotocapturesetcameraid-cameraid" title="Permanent link">#</a></h4>
+<p>设置用于拍照的摄像头ID</p>
+<blockquote>
+<p><strong><em>Parameters</em></strong>: </p>
+<p><code>cameraID</code>： Id of the camera</p>
+</blockquote>
+<h4 id="alphotocapturesetcaptureinterval-captureinterval"><code>ALPhotoCapture.setCaptureInterval (captureInterval)</code><a class="headerlink" href="#alphotocapturesetcaptureinterval-captureinterval" title="Permanent link">#</a></h4>
+<p>设置两次连续拍照之间的间隔时间。</p>
+<blockquote>
+<p><strong><em>Parameters</em></strong>:  </p>
+<p><code>captureInterval</code>：以毫秒为单位，默认值200，相当于每秒拍摄5张图像。</p>
+</blockquote>
+<h4 id="alphotocapturetakepicturefolderpathfilename"><code>ALPhotoCapture.takePicture(folderPath，fileName)</code><a class="headerlink" href="#alphotocapturetakepicturefolderpathfilename" title="Permanent link">#</a></h4>
+<p>以给定的分辨率拍摄一张照片并将其存储在磁盘上。文件格式由扩展名决定(参见ALPhotoCapture.setPictureFormat支持的扩展名列表)。如果目标文件已经存在，它将被覆盖。</p>
+<blockquote>
+<p><strong><em>Parameters</em></strong>: </p>
+<p><code>folderPath</code>：- 文件保存路径          </p>
+<p><code>fileName</code>：- 文件名字</p>
+<p><strong><em>Returns</em></strong>:  </p>
+<p>一个元素的数组 形式为   [fileName]</p>
+</blockquote>
+<h4 id="alphotocapturesetresolution-resolution"><code>ALPhotoCapture.setResolution (resolution)</code><a class="headerlink" href="#alphotocapturesetresolution-resolution" title="Permanent link">#</a></h4>
+<p>设置拍照的分辨率。</p>
+<blockquote>
+<p><strong><em>Parameters</em></strong>:  </p>
+<p><code>resolution</code>：Nao机器人支持的分辨率</p>
+</blockquote>
+<h4 id="alphotocapturesetpictureformatpictureformat"><code>ALPhotoCapture.setPictureFormat(pictureFormat)</code><a class="headerlink" href="#alphotocapturesetpictureformatpictureformat" title="Permanent link">#</a></h4>
+<p>设置用于保存图片的图像格式, 这对应于添加到文件名中的文件扩展名。</p>
+<blockquote>
+<p><strong><em>Parameters</em></strong>:  </p>
+<p><code>pictureFormat</code>：- 文件格式 ： “bmp”, “dib”, “jpeg”, “jpg”, “jpe”, “png”, “pbm”, “pgm”, “ppm”, “sr”, “ras”, “tiff”, “tif”</p>
+</blockquote>
+<h4 id="alphotocapturetakepicturesnubmerofpictures-folderpathfilename"><code>ALPhotoCapture.takePictures(nubmerOfPictures, folderPath，fileName)</code><a class="headerlink" href="#alphotocapturetakepicturesnubmerofpictures-folderpathfilename" title="Permanent link">#</a></h4>
+<p>连续拍摄几张照片并存储在磁盘上。如果目标文件已经存在，它将被覆盖。</p>
+<blockquote>
+<p><strong><em>Parameters</em></strong>:  </p>
+<p><code>numberOfPictures</code> - 需要拍照的数量</p>
+<p><code>folderPath</code>：- 文件保存路径</p>
+<p><code>fileName</code>：- 文件名字</p>
+<p><strong><em>Returns</em></strong>:  </p>
+<p>一个元素的数组 形式为   [fileName]</p>
+</blockquote>
+<h4 id="_2">实例<a class="headerlink" href="#_2" title="Permanent link">#</a></h4>
+<p>本教程解释了如何使用Python运行ALPhotoCapture模块，在一些初始化步骤之后，我们首先向ALPhotoCapture模块实例化一个代理。</p>
+<pre><code class="python"># This test demonstrates how to use the ALPhotoCapture module.
+# Note that you might not have this module depending on your distribution
+import os
+import sys
+import time
+from naoqi import ALProxy
+
+# Replace this with your robot's IP address
+IP = &quot;10.0.252.91&quot;
+PORT = 9559
+
+# Create a proxy to ALPhotoCapture
+try:
+  photoCaptureProxy = ALProxy(&quot;ALPhotoCapture&quot;, IP, PORT)
+except Exception, e:
+  print &quot;Error when creating ALPhotoCapture proxy:&quot;
+  print str(e)
+  exit(1)
+</code></pre>
+
+<p>调用函数进行拍照</p>
+<pre><code class="python"># Take 3 pictures in VGA and store them in /home/nao/recordings/cameras/
+
+photoCaptureProxy.setResolution(2)
+photoCaptureProxy.setPictureFormat(&quot;jpg&quot;)
+photoCaptureProxy.takePictures(3, &quot;/home/nao/recordings/cameras/&quot;, &quot;image&quot;)
+
+# This call returns ['/home/nao/recordings/cameras/image_0.jpg', '/home/nao/recordings/cameras/image_1.jpg', '/home/nao/recordings/cameras/image_2.jpg']
+</code></pre>
+
+<h3 id="alvideodevice">ALVideoDevice模块<a class="headerlink" href="#alvideodevice" title="Permanent link">#</a></h3>
+<p><code>ALVideoDevice</code>模块负责将视频源(如机器人的摄像头、模拟器)的图像高效地提供给所有处理模块，如<code>ALFaceDetection</code>或<code>ALVisionRecognition</code>。由于<code>ALVideoDevice</code>模块随时知道需要图像的模块列表及其需求，因此可以设置视频设备的最小配置，既能满足各个模块的需求，又能节省处理资源。</p>
+<h4 id="alvideodevicesubscribecameraname-cameraindex-resolution-colorspace-fps"><code>ALVideoDevice.subscribeCamera(Name, CameraIndex, Resolution, ColorSpace, Fps)</code><a class="headerlink" href="#alvideodevicesubscribecameraname-cameraindex-resolution-colorspace-fps" title="Permanent link">#</a></h4>
+<p>订阅一个ALVideoDevice，当视频模块注册到ALVideoDevice时，请求的图像格式的缓冲区被添加到缓冲区列表中。该函数返回一个句柄，该句柄标识ALVideoDevice中的模块。(此句柄基于name参数，例如，第三个句柄在其名称中添加_3来构建此句柄)。</p>
+<blockquote>
+<p><strong><em>Parameters</em></strong>:  </p>
+<p><code>Name</code> - 订阅的模块名称</p>
+<p><code>CameraIndex</code> ：- 视频系统中摄像机的索引。</p>
+<p><code>Resolution</code> ：- 分辨率</p>
+<p><code>ColorSpace</code>：- 颜色空间</p>
+<p><code>Fps</code>: -帧率 </p>
+<p><strong><em>Returns</em></strong>: </p>
+<p>字符串句柄，该句柄下的模块是ALVideoDevice已知的，如果发生错误，返回空字符串</p>
+</blockquote>
+<h4 id="alvideodevicegetimagelocalhandle"><code>ALVideoDevice.getImageLocal(Handle)</code><a class="headerlink" href="#alvideodevicegetimagelocalhandle" title="Permanent link">#</a></h4>
+<p>从视频源获取最新的图像，对图像进行最终转换，以提供视觉模块所要求的格式，并返回一个指向已锁定的AL.ALImage图像模块的指针。</p>
+<blockquote>
+<p><strong><em>Parameters</em></strong>:  </p>
+<p><code>Handle</code>- 订阅函数返回的句柄</p>
+<p><strong><em>Returns</em></strong>:  </p>
+<p>指向锁定的图像缓冲区的指针，如果错误返回NULL(例如，如果以前的图像没有被释放)。</p>
+</blockquote>
+<h4 id="alvideodevicegetimageremotehandle"><code>ALVideoDevice.getImageRemote(Handle)</code><a class="headerlink" href="#alvideodevicegetimageremotehandle" title="Permanent link">#</a></h4>
+<p>从视频源获取最新的图像，对图像应用最终的转换，以提供vision模块所要求的格式，并将其作为一个值通过网络发送。</p>
+<blockquote>
+<p><strong><em>Parameters</em></strong>:  </p>
+<p><code>Handle</code>- 订阅函数返回的句柄</p>
+<p><strong><em>Returns</em></strong>:  </p>
+<p>包含图像的类</p>
+</blockquote>
+<h4 id="alvideodevicereleaseimagehandle"><code>ALVideoDevice.releaseImage(Handle)</code><a class="headerlink" href="#alvideodevicereleaseimagehandle" title="Permanent link">#</a></h4>
+<p>释放被<code>ALVideoDevice.getImageLocal()</code>锁定的图像缓冲区。如果模块没有锁定的图像缓冲区，什么都不做。</p>
+<blockquote>
+<p><strong><em>Parameters</em></strong>:  </p>
+<p><code>Handle</code>- 订阅函数返回的句柄</p>
+<p><strong><em>Returns</em></strong>:  </p>
+<p>成功返回True</p>
+</blockquote>
+<h4 id="alvideodeviceunsubscribehandle"><code>ALVideoDevice.unsubscribe(Handle)</code><a class="headerlink" href="#alvideodeviceunsubscribehandle" title="Permanent link">#</a></h4>
+<p>从<code>ALVideoDevice</code>注销一个模块</p>
+<blockquote>
+<p><strong><em>Parameters</em></strong>:  </p>
+<p><code>Handle</code>- 订阅函数返回的句柄</p>
+<p><strong><em>Returns</em></strong>:  </p>
+<p>成功返回True</p>
+</blockquote>
+<h4 id="_3">用法<a class="headerlink" href="#_3" title="Permanent link">#</a></h4>
+<table>
+<thead>
+<tr>
+<th align="left">Step</th>
+<th align="left">Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">1</td>
+<td align="left">Make your vision module subscribe to the <strong>ALVideoDevice</strong> proxy by calling <a href="https://developer.softbankrobotics.com/nao6/naoqi-developer-guide/naoqi-apis/naoqi-vision/alvideodevice/alvideodevice-api#ALVideoDeviceProxy::subscribeCamera__ssCR.iCR.iCR.iCR.iCR"><code>ALVideoDeviceProxy::subscribeCamera</code></a>and passing it parameters such as resolution, color space and frame rate.</td>
+</tr>
+<tr>
+<td align="left">2</td>
+<td align="left">In the main process loop, get an image by calling <a href="https://developer.softbankrobotics.com/nao6/naoqi-developer-guide/naoqi-apis/naoqi-vision/alvideodevice/alvideodevice-api#ALVideoDeviceProxy::getImageLocal__ssCR"><code>ALVideoDeviceProxy::getImageLocal</code></a>or <a href="https://developer.softbankrobotics.com/nao6/naoqi-developer-guide/naoqi-apis/naoqi-vision/alvideodevice/alvideodevice-api#ALVideoDeviceProxy::getImageRemote__ssCR"><code>ALVideoDeviceProxy::getImageRemote</code></a>(depending on whether your module is local or remote).</td>
+</tr>
+<tr>
+<td align="left">3</td>
+<td align="left">Release the image calling <a href="https://developer.softbankrobotics.com/nao6/naoqi-developer-guide/naoqi-apis/naoqi-vision/alvideodevice/alvideodevice-api#ALVideoDeviceProxy::releaseImage__ssCR"><code>ALVideoDeviceProxy::releaseImage</code></a>,</td>
+</tr>
+<tr>
+<td align="left">4</td>
+<td align="left">When you stop your module, call <a href="https://developer.softbankrobotics.com/nao6/naoqi-developer-guide/naoqi-apis/naoqi-vision/alvideodevice/alvideodevice-api#ALVideoDeviceProxy::unsubscribe__ssCR"><code>ALVideoDeviceProxy::unsubscribe</code></a>after exiting the main loop.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="alvideorecorder">ALVideoRecorder模块<a class="headerlink" href="#alvideorecorder" title="Permanent link">#</a></h3>
+<p><code>ALVideoRecorder</code>模块允许您使用机器人摄像机录制视频序列，并将它们保存在磁盘上。</p>
+<h4 id="alvideorecordersetcameraidcameraid"><code>ALVideoRecorder.setCameraID(cameraID)</code><a class="headerlink" href="#alvideorecordersetcameraidcameraid" title="Permanent link">#</a></h4>
+<p>设置用于录制的摄像头ID</p>
+<blockquote>
+<p><strong><em>Parameters</em></strong>:  </p>
+<p><code>cameraID</code>： Id of the camera</p>
+</blockquote>
+<h4 id="alvideorecordersetcolorspacecolorspace"><code>ALVideoRecorder.setColorSpace(colorSpace)</code><a class="headerlink" href="#alvideorecordersetcolorspacecolorspace" title="Permanent link">#</a></h4>
+<p>设置使用的颜色空间</p>
+<blockquote>
+<p><strong><em>Parameters</em></strong>:  </p>
+<p><code>colorSpace</code>：它可以是kBGRColorSpace(颜色)或kYuvColorSpace(灰度)。</p>
+</blockquote>
+<h4 id="alvideorecordersetframerateframerate"><code>ALVideoRecorder.setFrameRate(frameRate)</code><a class="headerlink" href="#alvideorecordersetframerateframerate" title="Permanent link">#</a></h4>
+<p>设置每秒帧数</p>
+<blockquote>
+<p><strong><em>Parameters</em></strong>:  </p>
+<p><code>frameRate</code>：帧速率在1到30之间(VGA分辨率最大为15帧/秒)。</p>
+</blockquote>
+<h4 id="alvideorecordersetresolutionresolution"><code>ALVideoRecorder.setResolution(resolution)</code><a class="headerlink" href="#alvideorecordersetresolutionresolution" title="Permanent link">#</a></h4>
+<p>设置分辨率</p>
+<blockquote>
+<p><strong><em>Parameters</em></strong>:  </p>
+<p><code>resolution</code>：分辨率为 ： 0 (QQVGA)， 1 (QVGA)或2 (VGA)</p>
+</blockquote>
+<h4 id="alvideorecordersetvideoformatvideoformat"><code>ALVideoRecorder.setVideoFormat(videoFormat)</code><a class="headerlink" href="#alvideorecordersetvideoformatvideoformat" title="Permanent link">#</a></h4>
+<p>设置用于编码视频的方式。</p>
+<blockquote>
+<p><strong><em>Parameters</em></strong>:  </p>
+<p><code>videoFormat</code>：“IYUV”(院士 avi，仅限彩色视频)      “MJPG”(压缩avi，灰度和彩色视频)</p>
+</blockquote>
+<h4 id="alvideorecorderstartrecordingfolderpath-filename"><code>ALVideoRecorder.startRecording(folderPath, fileName)</code><a class="headerlink" href="#alvideorecorderstartrecordingfolderpath-filename" title="Permanent link">#</a></h4>
+<p>以输入参数开始录像，直到<code>ALVideoRecorderProxy::stopRecording</code>被调用。如果目标文件已经存在，它将被覆盖，同一时间只能录制一个视频。</p>
+<blockquote>
+<p><strong><em>Parameters</em></strong>:  </p>
+<p><code>folderPath</code>：视频保存的位置</p>
+<p><code>filename</code>： 视频保存的名称</p>
+</blockquote>
+<h4 id="alvideorecorderstoprecording"><code>ALVideoRecorder.stopRecording()</code><a class="headerlink" href="#alvideorecorderstoprecording" title="Permanent link">#</a></h4>
+<p>停止用<code>ALVideoRecorderProxy::startRecording</code>启动的视频录制。该函数返回所记录的帧数以及视频的绝对路径。</p>
+<blockquote>
+<p><strong><em>Returns</em></strong>:   </p>
+<p><code>[numRecordedFrames, recordAbsolutePath]</code></p>
+</blockquote>
+<h4 id="_4">实例<a class="headerlink" href="#_4" title="Permanent link">#</a></h4>
+<p>在一些初始化步骤之后，我们首先实例化<code>ALVideoRecorder</code>模块的代理。</p>
+<pre><code class="python"># This test demonstrates how to use the ALVideoRecorder module.
+# Note that you might not have this module depending on your distribution
+import os
+import sys
+import time
+from naoqi import ALProxy
+
+# Replace this with your robot's IP address
+IP = &quot;10.0.252.91&quot;
+PORT = 9559
+
+# Create a proxy to ALVideoRecorder
+try:
+  videoRecorderProxy = ALProxy(&quot;ALVideoRecorder&quot;, IP, PORT)
+except Exception, e:
+  print &quot;Error when creating ALVideoRecorder proxy:&quot;
+  print str(e)
+  exit(1)
+</code></pre>
+
+<p>开始记录一个视频</p>
+<pre><code class="python">videoRecorderProxy.setFrameRate(10.0)
+videoRecorderProxy.setResolution(2) # Set resolution to VGA (640 x 480)
+# We'll save a 5 second video record in /home/nao/recordings/cameras/
+videoRecorderProxy.startRecording(&quot;/home/nao/recordings/cameras&quot;, &quot;test&quot;)
+print &quot;Video record started.&quot;
+
+time.sleep(5)
+
+videoInfo = videoRecorderProxy.stopRecording()
+print &quot;Video was saved on the robot: &quot;, videoInfo[1]
+print &quot;Total number of frames: &quot;, videoInfo[0]
+</code></pre>
+
+<h3 id="alredballdetection">ALRedBallDetection模块<a class="headerlink" href="#alredballdetection" title="Permanent link">#</a></h3>
+<p><code>ALRedBallDetection</code>是一个模块，提供了一个基于快速视觉的红球检测器。<code>ALRedBallDetection</code>是基于相机图像中红色像素进行检测，根据这些像素与YUV色彩空间中的红色值的距离使用一个阈值进行过滤，计算该阈值实现了在光照条件变化时进行检测。然后，从所有检测到的红色像素集合中，只保留那些定义圆形的像素。当在当前图像上找到一组合适像素时，<code>ALMemory</code>键<code>redBallDetected</code>被更新，并返回如下的关键字：</p>
+<pre><code class="guess">[
+  TimeStamp,
+  BallInfo,
+  CameraPose_InTorsoFrame,
+  CameraPose_InRobotFrame,
+  Camera_Id
+]
+</code></pre>
+
+<p><code>TimeStamp</code>：该字段是用于执行检测的图像的时间戳。</p>
+<pre><code class="guess">TimeStamp [
+  TimeStamp_Seconds,
+  Timestamp_Microseconds
+]
+</code></pre>
+
+<p><code>BallInfo</code></p>
+<pre><code class="guess">BallInfo [
+  centerX,
+  centerY,
+  sizeX,
+  sizeY
+]
+</code></pre>
+
+<ul>
+<li><code>centerX</code> 和 <code>centerY</code> 是球中心的角度坐标，以角度(弧度)表示。</li>
+<li><code>sizeX</code> 和 <code>sizeY</code> 是球的“水平和垂直半径”的角度(弧度)。</li>
+</ul>
+<p>坐标系的原点在图像的中间<code>centerX</code> 对应于沿Z轴的正(逆时针)旋转， <code>centerY</code> 对应于沿Y轴的正旋转，如下图所示:</p>
+<p><img alt="/sites/default/files/repository/70_html_nao/_images/vision_cameraangles.png" src="https://developer.softbankrobotics.com/sites/default/files/repository/70_html_nao/_images/vision_cameraangles.png" /></p>
+<p><code>CameraPose_InTorsoFrame</code> : 在躯干坐标系中描述了图像被拍摄时相机的位置</p>
+<p><code>CameraPose_InRobotFrame</code> : 在机器人坐标系中描述了图像被拍摄时相机的位置</p>
+<p><code>Camera_Id</code> : 给出用于检测的摄像机的Id(0为顶部摄像机，1为底部摄像机)。</p>
+<h3 id="alvisionrecognition">ALVisionRecognition模块<a class="headerlink" href="#alvisionrecognition" title="Permanent link">#</a></h3>
+<p><code>ALVisionRecognition</code>是一个视觉模块，机器人可以在这个模块中尝试识别不同的图片、物体、侧面甚至是之前学习过的位置。该模块以视觉关键点的识别为基础，仅针对之前学习过的特定对象进行识别。</p>
+<h4 id="_5">检测结果<a class="headerlink" href="#_5" title="Permanent link">#</a></h4>
+<p>像所有其他提取模块一样，识别结果被放在<code>ALMemory</code>中。当某个东西被识别时，你会看到一个<code>ALValue</code>字段，其结构如下:</p>
+<p>“<code>PictureDetected</code>” 关键字结构如下</p>
+<pre><code class="guess">[
+  TimeStamp,
+  PictureInfo[N]
+]
+</code></pre>
+
+<p><code>PictureInfo</code>标签数量与当前识别到物体的数量一样多。</p>
+<p><code>TimeStamp</code></p>
+<p>该字段是用于执行检测的图像的时间戳。</p>
+<pre><code class="guess">TimeStamp =
+[
+  TimeStamp_Seconds,
+  Timestamp_Microseconds
+]
+</code></pre>
+
+<p><code>PictureInfo</code></p>
+<p>对于每个检测到的图片，我们有一个<code>PictureInfo</code>字段:</p>
+<pre><code class="guess">PictureInfo =
+[
+  Label[N],
+  MatchedKeypoints,
+  Ratio,
+  BoundaryPoint[N]
+]
+</code></pre>
+
+<ul>
+<li><code>Label</code> : 有组织的图片名称 (e.g. [“cover”, “my book”], or [“fridge corner”, “kitchen”, “my flat”]).</li>
+<li><code>MatchedKeypoints</code> 在当前帧中为对象检索到的关键点数量。</li>
+<li><code>Ratio</code> 是当前帧中检索到的对象的关键点数除以对象在学习阶段中找到的关键点数。</li>
+<li><code>BoundaryPoint</code> 是表示学习阶段选择的边界在当前图像中重新投影的角度值(弧度)中的点坐标列表。</li>
+</ul>
+<pre><code class="guess">BoundaryPoint =
+[
+  x,
+  y
+]
+</code></pre>
+
+<h4 id="alvisionrecognitiondetectfromfile-filename"><code>ALVisionRecognition.detectFromFile (filename)</code><a class="headerlink" href="#alvisionrecognitiondetectfromfile-filename" title="Permanent link">#</a></h4>
+<p>在给定图像文件中搜索已知对象。</p>
+<blockquote>
+<p><strong><em>Parameters</em></strong>:   </p>
+<p><code>filename</code> – 要搜索的图像的绝对文件名。</p>
+</blockquote>
+<h4 id="alvisionrecognitionlearnfromfile-filename-name-tags-iswholeimage-forced"><code>ALVisionRecognition.learnFromFile (filename, name, tags, isWholeImage, forced)</code><a class="headerlink" href="#alvisionrecognitionlearnfromfile-filename-name-tags-iswholeimage-forced" title="Permanent link">#</a></h4>
+<p>从给定的文件名加载图像，并学习它与给定的信息，名称，标签，边界。</p>
+<blockquote>
+<p><strong><em>Parameters</em></strong>:   </p>
+<p><code>image</code> – 要搜索的图像的绝对文件名。</p>
+<p><code>name</code> - 对象的名称，必须是非空字符串。</p>
+<p><code>tags</code> - 与对象一起存储的对象标签，可以为空。</p>
+<p><code>isWholeImage</code> - Bool变量，默认为False。 True表示物体占据了整个图像，False表示自动检测物体的边界。仅当物体从单色背景中突出时使用。</p>
+<p><code>forced</code> - Bool变量，默认为False。True表示学习对象将替换可能存在的对象(条件:具有相同的原始文件名)。False:如果一个对象已经以相同的文件名存在，它将不会被替换，并且方法将中止。</p>
+<p><strong><em>Return</em></strong>：</p>
+<p>成功返回True，否则返回False</p>
+</blockquote>
+<h4 id="_6">实例<a class="headerlink" href="#_6" title="Permanent link">#</a></h4>
+<p>本教程介绍从 Python 访问 <code>ALVisionRecognition</code>模块的两种方法， 订阅包含 <code>ALVisionRecognition</code>的<code>AlMemory</code>密钥。</p>
+<p>import一些环境和变量</p>
+<pre><code class="python">import os
+import sys
+import time
+import naoqi
+from naoqi import *
+
+# A global counter of the number of loops
+count = 10
+
+PC_IP = &quot;127.0.0.1&quot;  # Replace this with your computer's IP address
+NAO_IP = &quot;nao.local&quot; # Replace this with your NAOqi's IP address
+
+# The name of the event generated by ALVisionRecognition
+event_name = &quot;PictureDetected&quot;
+</code></pre>
+
+<p>我们使用回调方法创建 python 模块并实例化它</p>
+<pre><code class="python"># The name of our local python module
+module_name = &quot;python_module&quot;
+
+class myModule(ALModule):
+&quot;&quot;&quot;python class myModule test auto documentation&quot;&quot;&quot;
+
+  def dataChanged(self, strVarName, value, strMessage):
+    &quot;&quot;&quot;callback when data change&quot;&quot;&quot;
+
+    print &quot;datachanged&quot;, strVarName, &quot; &quot;, value, &quot; &quot;, strMessage
+    global count
+    count = count - 1
+
+# Create a local broker, connected to the remote naoqi
+broker = ALBroker(&quot;pythonBroker&quot;, PC_IP, 9999, NAO_IP, 9559)
+
+# Create a python module
+pythonModule = myModule(module_name)
+</code></pre>
+
+<p>订阅事件，以便可以调用我们的回调</p>
+<pre><code class="python">try:
+  # Create a proxy to ALMemory
+  memoryProxy = ALProxy(&quot;ALMemory&quot;, ROBOT_IP, PORT)
+
+  # Subscribe to the event, saying where we want to be called back
+  memoryProxy.subscribeToEvent(event_name, module_name, &quot;dataChanged&quot;)
+
+  # Let the picture recognition run
+  while count &gt; 0:
+    time.sleep(5)
+
+  # Unsubscribe
+  memoryProxy.unsubscribeToEvent(event_name, module_name)
+
+except RuntimeError, e:
+  print e
+  exit(1)
+
+print 'end'
+</code></pre>
+
+<h3 id="allocalization">ALLocalization模块<a class="headerlink" href="#allocalization" title="Permanent link">#</a></h3>
+<p><code>ALLocalization</code>是一个模块，致力于在室内环境中对机器人<em>进行</em>定位。</p>
+<h4 id="allocalizationlearnhome"><code>ALLocalization.learnHome()</code><a class="headerlink" href="#allocalizationlearnhome" title="Permanent link">#</a></h4>
+<p>学习机器人的主节点</p>
+<blockquote>
+<p><strong><em>Returns</em></strong>:  </p>
+<p>无错误返回0，否则返回错误代码</p>
+</blockquote>
+<h4 id="allocalizationgetrobotpositionactive"><code>ALLocalization.getRobotPosition(active)</code><a class="headerlink" href="#allocalizationgetrobotpositionactive" title="Permanent link">#</a></h4>
+<p>学习机器人的主节点</p>
+<blockquote>
+<p><strong><em>Parameters</em></strong>: </p>
+<p><code>active</code> - 默认为False， 定义里程计不可靠是的重定位过程，如果为True, 机器人会重新扫描来定位，如果为假，机器人将不会移动。</p>
+<p><strong><em>Returns</em></strong>:  </p>
+<p>机器人2D的坐标(x, y)。</p>
+</blockquote>
+<h4 id="allocalizationgotohome"><code>ALLocalization.goToHome ()</code><a class="headerlink" href="#allocalizationgotohome" title="Permanent link">#</a></h4>
+<p>如果需要,将机器人移动到执行<code>ALLocalization.learnHome</code>的地方。准确性取决于环境。</p>
+<blockquote>
+<p><strong><em>Returns</em></strong>:  </p>
+<p>如果无错误返回0， 否则返回错误代码</p>
+</blockquote>
+<h4 id="_7">实例<a class="headerlink" href="#_7" title="Permanent link">#</a></h4>
+<pre><code class="python">motionProxy  = ALProxy(&quot;ALMotion&quot;, robotIP, PORT)
+localizationProxy = ALProxy(&quot;ALLocalization&quot;, robotIP, PORT)
+
+# Learning home.
+ret = localizationProxy.learnHome()
+# Check that no problem occurred.
+if ret == 0:
+  print &quot;Learning OK&quot;
+else:
+  print &quot;Error during learning &quot; + str(ret)
+
+# Make some moves.
+motionProxy.moveTo(0.5, 0.0, 0.2)
+
+# Go back home.
+ret = localizationProxy.goToHome()
+# Check that no problem occurred.
+if ret == 0:
+  print &quot;go to home OK&quot;
+else:
+  print &quot;error during go to home &quot; + str(ret)
+
+# Save the data for later use.
+ret = localizationProxy.save(&quot;example&quot;)
+# Check that no problem occurred.
+if ret == 0:
+  print &quot;saving OK&quot;
+else:
+  print &quot;error during saving&quot; + str(ret)
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../audio/" class="btn btn-neutral float-right" title="机器人听觉">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../motion/" class="btn btn-neutral" title="机器人运动"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../motion/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../audio/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

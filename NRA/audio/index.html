@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>机器人听觉 - Nao机器人手册</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "\u673a\u5668\u4eba\u542c\u89c9";
+    var mkdocs_page_input_path = "audio.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Nao机器人手册</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">简介</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../basic/">基本操作</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../motion/">机器人运动</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../vision/">机器人视觉</a>
+                    </li>
+                </ul>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">机器人听觉</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#alanimatedspeech">ALAnimatedSpeech模块</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#alanimatedspeechsaytext">ALAnimatedSpeech.say(text)</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#alaudiodevice">ALAudioDevice模块</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#alaudiodevicedisableenergycomputation">ALAudioDevice.disableEnergyComputation()</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#alaudiodeviceenableenergycomputation">ALAudioDevice.enableEnergyComputation()</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#alaudiodeviceflushaudiooutputs">ALAudioDevice.flushAudioOutputs()</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#alaudiodevicegetfrontmicenergy">ALAudioDevice.getFrontMicEnergy()</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#alaudiodevicegetoutputvolume">ALAudioDevice.getOutputVolume()</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#alaudiodeviceisaudiooutmuted">ALAudioDevice.isAudioOutMuted()</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#alaudiodevicemuteaudiooutmute">ALAudioDevice.muteAudioOut(mute)</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#alaudiodeviceplaysinefrequencygainpanduration">ALAudioDevice.playSine(frequency，gain,pan,duration)</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#alaudiodevicesendlocalbuffertooutputnbofframesbuffer">ALAudioDevice.sendLocalBufferToOutput(nbOfFrames,buffer)</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#alaudiodevicesetclientpreferencesnamesampleratechannelsdeinterleaved">ALAudioDevice.setClientPreferences(name,sampleRate,channels,deinterleaved)</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#alaudiodevicesetfileasinputfilename">ALAudioDevice.setFileAsInput(fileName)</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#alaudiodevicesetoutputvolumevolume">ALAudioDevice.setOutputVolume(volume)</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#alaudiodevicestartmicrophonesrecordingfilename">ALAudioDevice.startMicrophonesRecording(fileName)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#alaudioplayer">ALAudioPlayer 模块</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#alaudioplayerloadfilefilename">ALAudioPlayer.loadFile(filename)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#alaudioplayerpause-taskid">ALAudioPlayer.pause (taskID)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#alaudioplayerplaytaskid-volumepan">ALAudioPlayer.play(taskID, volume，pan)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#alaudioplayerplayfile-filename-volume-pan">ALAudioPlayer.playFile (fileName, volume, pan)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#alaudioplayersetvolume-taskid-volume">ALAudioPlayer.setVolume (taskID, volume)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#alaudioplayerstopall">ALAudioPlayer.stopAll ()</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../emotion/">机器人情绪感知</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../dance/">机器人跳舞实例解析</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../kick_ball/">机器人踢球实例解析</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Nao机器人手册</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>机器人听觉</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h2 id="_1">机器人语音<a class="headerlink" href="#_1" title="Permanent link">#</a></h2>
+<h3 id="alanimatedspeech">ALAnimatedSpeech模块<a class="headerlink" href="#alanimatedspeech" title="Permanent link">#</a></h3>
+<p>该模块使机器人以一种有表现力的形式来说话，包括语言和动作等。</p>
+<p>原理：模块可以接收用指令标注的文本，文本被分成一个个语句和动作小块，可以自定义每个动作和语句执行的同步性和异步性</p>
+<p>指令文本：一个包含语句和动作指令的文本，如</p>
+<pre><code class="python">&quot;Hello! ^start(animations/Stand/Gestures/Hey_1) Nice to meet you!&quot;
+</code></pre>
+
+<p>执行了这个文本之后，机器人的执行顺序是：</p>
+<p>（1）机器人说“Hello”</p>
+<p>（2）同时执行</p>
+<p>​           a.执行命令animations/Stand/Gestures/Hey_1</p>
+<p>​           b.说“Nice to meet you!”  </p>
+<p>如果想继续运行动作，可以在后面加一个<strong>^wait</strong>指令，如</p>
+<pre><code class="python">&quot;Hello! ^start(animations/Stand/Gestures/Hey_1) Nice to meet you ^wait(animations/Stand/Gestures/Hey_1)&quot;
+</code></pre>
+
+<p>具体的指令如下：</p>
+<p><strong>说话动作模式</strong></p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>^mode(</strong> <em>speaking_movement_mode</em> <strong>)</strong></td>
+<td>改变说话的时候的动作，<em>speaking_movement_mode</em>可以是“disabled”"random""contextual"</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="python">&quot;Hello. Look I can stop moving ^mode(disabled) and after I can resume moving ^mode(contextual), you see ?&quot;
+</code></pre>
+
+<p><strong>动态动作</strong></p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>^run(</strong> <em>animation_full_name</em> <strong>)</strong></td>
+<td>中止语音，进行动态动作，再重新开始语音</td>
+</tr>
+<tr>
+<td><strong>^start(</strong> <em>animation_full_name</em> <strong>)</strong></td>
+<td>开始动作</td>
+</tr>
+<tr>
+<td><strong>^stop(</strong> <em>animation_full_name</em> <strong>)</strong></td>
+<td>停止动作</td>
+</tr>
+<tr>
+<td><strong>^wait(</strong> <em>animation_full_name</em> <strong>)</strong></td>
+<td>中止语音，等到动作结束再重新开始语音</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="python">&quot;^start(animations/Stand/Gestures/Enthusiastic_4) Look what I can do while speaking!&quot;
+&quot;^start(animations/Stand/Gestures/Enthusiastic_4) Look what I can do while speaking! ^stop(animations/Stand/Gestures/Enthusiastic_4) Now I am animated by the ALSpeakingMovement module&quot;
+&quot;^start(animations/Stand/Gestures/Hey_1)Hi, guys! ^wait(animations/Stand/Gestures/Hey_1)&quot;
+</code></pre>
+
+<p><strong>运行标记动作</strong></p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>^runTag(</strong> <em>tag_name</em> <strong>)</strong> 或 <strong>^runTag(</strong> <em>path</em> , <em>tag_name</em> <strong>)</strong></td>
+<td>中止语音→运行有标记的动态动作，如果指定路径，则只有该路径的动作被运行→重新开始语音</td>
+</tr>
+<tr>
+<td><strong>^startTag(</strong> <em>tag_name</em> <strong>)</strong> 或 <strong>^runTag(</strong> <em>path</em> , <em>tag_name</em> <strong>)</strong></td>
+<td>运行有标记的动态动作，如果指定路径，则只有该路径的动作被运行</td>
+</tr>
+<tr>
+<td><strong>^stopTag(</strong> <em>tag_name</em> <strong>)</strong> 或<strong>^stopTag(</strong> <em>path</em> , <em>tag_name</em> <strong>)</strong></td>
+<td>停止有标记的动态动作，如果指定路径，则只有该路径的动作被停止</td>
+</tr>
+<tr>
+<td><strong>^waitTag(</strong> <em>tag_name</em> <strong>)</strong> 或<strong>^waitTag(</strong> <em>path</em> , <em>tag_name</em> <strong>)</strong></td>
+<td>中止语音→等待有标记的动态动作结束，如果指定路径，则只等待该路径指定的动作→重新开始语音</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="python">&quot;^startTag(me) My name is Nao.&quot;
+&quot;^startTag(hello) Hello. ^waitTag(hello)&quot;
+&quot;^startTag(hello) Hello Paul, nice to meet you. ^stopTag(hello) My name is Nao.&quot;
+&quot;^startTag(animations/Stand, hello) Hello. ^waitTag(animations/Stand, hello)&quot;
+
+</code></pre>
+
+<p><strong>声音</strong></p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>^runSound(</strong> <em>soundSet/soundFile</em> <strong>)</strong>或<strong>^runSound(</strong> <em>soundSet/soundFile</em> , <em>soundVolume</em> <strong>)</strong></td>
+<td>中断语音→播放声音→重新启动语音。<em>soundVolume</em>是0~100的整数，默认值为100</td>
+</tr>
+<tr>
+<td><strong>^startSound(</strong> <em>soundSet/soundFile</em> <strong>)</strong>或<strong>^startSound(</strong> <em>soundSet/soundFile</em> , <em>soundVolume</em> <strong>)</strong></td>
+<td>播放声音作为背景音乐。<em>soundVolume</em>是0~100的整数，默认值为100</td>
+</tr>
+<tr>
+<td><strong>^stopSound(</strong> <em>soundSet/soundFile</em> <strong>)</strong></td>
+<td>停止播放</td>
+</tr>
+<tr>
+<td><strong>^waitSound(</strong> <em>soundSet/soundFile</em> <strong>)</strong></td>
+<td>中止语音→等待播放结束→重新启动语音</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="python">&quot;^startSound(my_sound_set/my_sound) That's cool.&quot;
+
+&quot;^startSound(my_sound_set/my_sound, 50) That's cool. ^waitSound(my_sound_set/my_sound)&quot;
+
+&quot;That's cool. ^runSound(my_sound_set/my_sound) &quot;
+</code></pre>
+
+<h4 id="alanimatedspeechsaytext"><code>ALAnimatedSpeech.say(text)</code><a class="headerlink" href="#alanimatedspeechsaytext" title="Permanent link">#</a></h4>
+<p>机器人语音输出给定的语句，并且对内嵌在语句中的动态动作进行演示</p>
+<blockquote>
+<p><u><strong><em>Parameters:</em></strong></u>   一个给定的文本语句，例如“Hello. ^start(animations/Stand/Gestures/Hey_1) My name is John Doe. Nice to meet you!”)</p>
+</blockquote>
+<pre><code class="python">from naoqi import ALProxy
+speech = ALProxy(&quot;ALAnimatedSpeech&quot;, &quot;&lt;IP of your robot&gt;&quot;, 9559)
+speech.say(&quot;Hello! ^start(animations/Stand/Gestures/Hey_1) Nice to meet you!&quot;)
+</code></pre>
+
+<h3 id="alaudiodevice">ALAudioDevice模块<a class="headerlink" href="#alaudiodevice" title="Permanent link">#</a></h3>
+<p>该模块提供给其它<code>Naoqi</code>模块到NAO的声音输入（麦克风）和声音输出（喇叭）的接口，每个需要处理声音信号的<code>Naoqi</code>模块都要使用该模块来传递信号。</p>
+<p><code>ALAudioDevice</code>可以以下列的格式来表示由麦克风输入的声音：</p>
+<ul>
+<li>四个通道交织，48000Hz，170ms缓冲（默认）</li>
+<li>四个通道分选，48000Hz，170ms缓冲</li>
+<li>一个通道（前，后，左或者右），16000Hz，170ms缓冲</li>
+</ul>
+<p><code>ALAudioDevice</code>可以以下列的帧数来发送数据到喇叭：</p>
+<ul>
+<li>两个通道交织，16000Hz（亚洲语言默认该值）</li>
+<li>两个通道交织，22050Hz（非亚洲语言默认该值）</li>
+<li>两个通道交织，44100Hz</li>
+<li>两个通道交织，48000Hz</li>
+</ul>
+<h4 id="alaudiodevicedisableenergycomputation"><code>ALAudioDevice.disableEnergyComputation()</code><a class="headerlink" href="#alaudiodevicedisableenergycomputation" title="Permanent link">#</a></h4>
+<p>关闭计算每个输入通道的能量</p>
+<pre><code class="python">from naoqi import ALProxy
+EngCom = ALProxy(&quot;ALAudioDevice&quot;, &quot;&lt;IP of your robot&gt;&quot;, 9559)
+EngCom.disableEnergyComputation()
+</code></pre>
+
+<h4 id="alaudiodeviceenableenergycomputation"><code>ALAudioDevice.enableEnergyComputation()</code><a class="headerlink" href="#alaudiodeviceenableenergycomputation" title="Permanent link">#</a></h4>
+<p>使能计算每个输入通道的能量（默认是关闭的），计算结果可以通过以下函数调取：</p>
+<ul>
+<li><code>ALAudioDevice.getFrontMicEnergy()</code></li>
+<li><code>ALAudioDevice.getRearMicEnergy()</code></li>
+<li><code>ALAudioDevice.getLeftMicEnergy()</code></li>
+<li><code>ALAudioDevice.getRightMicEnergy()</code></li>
+</ul>
+<h4 id="alaudiodeviceflushaudiooutputs"><code>ALAudioDevice.flushAudioOutputs()</code><a class="headerlink" href="#alaudiodeviceflushaudiooutputs" title="Permanent link">#</a></h4>
+<p>清空所有将要发送给扬声器的样本</p>
+<h5 id="alaudiodevicegetfrontmicenergy"><code>ALAudioDevice.getFrontMicEnergy()</code><a class="headerlink" href="#alaudiodevicegetfrontmicenergy" title="Permanent link">#</a></h5>
+<p>返回前方麦克风在170ms缓冲区的平均信号能量，该功能运行前首先要用<code>enableEnergyComputation</code>()使能</p>
+<blockquote>
+<p><u><strong><em>Returns:</em></strong></u>   能量值，范围在0~32768之间</p>
+</blockquote>
+<pre><code class="python">from naoqi import ALProxy
+Eng = ALProxy(&quot;ALAudioDevice&quot;, &quot;&lt;IP of your robot&gt;&quot;, 9559)
+Eng.enableEnergyComputation()
+leftEng = Eng.getFrontMicEnergy()
+</code></pre>
+
+<p>其余麦克风的能量计算同理</p>
+<h5 id="alaudiodevicegetoutputvolume"><code>ALAudioDevice.getOutputVolume()</code><a class="headerlink" href="#alaudiodevicegetoutputvolume" title="Permanent link">#</a></h5>
+<p>获取系统音量大小</p>
+<blockquote>
+<p><u><strong><em>Returns:</em></strong></u>   音量大小0~100</p>
+</blockquote>
+<h5 id="alaudiodeviceisaudiooutmuted"><code>ALAudioDevice.isAudioOutMuted()</code><a class="headerlink" href="#alaudiodeviceisaudiooutmuted" title="Permanent link">#</a></h5>
+<p>判断是否声音输出设备被禁止</p>
+<blockquote>
+<p><u><strong><em>Returns:</em></strong></u>   声音被禁止则返回True，否则返回False</p>
+</blockquote>
+<h5 id="alaudiodevicemuteaudiooutmute"><code>ALAudioDevice.muteAudioOut(mute)</code><a class="headerlink" href="#alaudiodevicemuteaudiooutmute" title="Permanent link">#</a></h5>
+<p>禁止声音设备</p>
+<blockquote>
+<p><u><strong><em>Parameters:</em></strong></u>   True表示禁止，False表示不禁止</p>
+</blockquote>
+<h5 id="alaudiodeviceplaysinefrequencygainpanduration"><code>ALAudioDevice.playSine(frequency，gain,pan,duration)</code><a class="headerlink" href="#alaudiodeviceplaysinefrequencygainpanduration" title="Permanent link">#</a></h5>
+<p>输出一个给定特性的正弦波</p>
+<blockquote>
+<p><u><strong><em>Parameters:</em></strong></u>   </p>
+<p><code>frequency</code>：频率，单位赫兹</p>
+<p><code>gain</code>：音量0~100</p>
+<p><code>pan</code>：立体声像，取-1，0，1</p>
+<p><code>duration</code>：持续时间，单位为秒</p>
+</blockquote>
+<h5 id="alaudiodevicesendlocalbuffertooutputnbofframesbuffer"><code>ALAudioDevice.sendLocalBufferToOutput(nbOfFrames,buffer)</code><a class="headerlink" href="#alaudiodevicesendlocalbuffertooutputnbofframesbuffer" title="Permanent link">#</a></h5>
+<p>一个本地的模块使用该函数发送信号到机器人的扬声器，信号存在十六位的缓存器中，缓存器的大小不超过16384</p>
+<blockquote>
+<p><u><strong>Parameters:</strong></u>   </p>
+<p><code>nbOfFrames</code>：缓存器中的立体帧数</p>
+<p><code>buffer</code>：缓存器的在内存空间中的地址</p>
+<p><u><strong>Returns:</strong></u>   </p>
+<p>操作成功返回True，否则返回False</p>
+</blockquote>
+<h5 id="alaudiodevicesetclientpreferencesnamesampleratechannelsdeinterleaved"><code>ALAudioDevice.setClientPreferences(name,sampleRate,channels,deinterleaved)</code><a class="headerlink" href="#alaudiodevicesetclientpreferencesnamesampleratechannelsdeinterleaved" title="Permanent link">#</a></h5>
+<p>模块可以通过这个函数来设定ALAudioDevice传递的信号的格式。如果没有调用这个函数，则默认发送给这个模块的格式是四个交织通道，48000Hz。下列的格式组合是可行的：</p>
+<ul>
+<li>四通道交织，48000Hz（默认设置）</li>
+<li>四通道分选，48000Hz</li>
+<li>一通道（前，后，左或右），16000Hz</li>
+</ul>
+<blockquote>
+<p><u><strong>Parameters:</strong></u>   </p>
+<p><code>name</code>：模块名字</p>
+<p><code>sampleRte</code>：取样率，16000Hz或48000Hz</p>
+<p><code>channels</code>：通道配置，AL.ALLCHANNELS，AL.FRONTCHANNEL，AL.LEFTCHANNEL或者AL.REARCHANNEL</p>
+<p><code>denterleaved</code>：只有当通道配置为AL.ALLCHANNELS时才有效</p>
+</blockquote>
+<h5 id="alaudiodevicesetfileasinputfilename"><code>ALAudioDevice.setFileAsInput(fileName)</code><a class="headerlink" href="#alaudiodevicesetfileasinputfilename" title="Permanent link">#</a></h5>
+<p>该函数将特定文件设定为声音输入，声音文件以.wav为后缀，包含48000Hz，16位，四通道交织信号</p>
+<blockquote>
+<p><u><strong>Parameters:</strong></u>  </p>
+<p><code>fileName</code>：文件的绝对路径</p>
+</blockquote>
+<h5 id="alaudiodevicesetoutputvolumevolume"><code>ALAudioDevice.setOutputVolume(volume)</code><a class="headerlink" href="#alaudiodevicesetoutputvolumevolume" title="Permanent link">#</a></h5>
+<p>该函数设定系统的输入音量，音量可以由ALAudioDevice.getOutputVolume获取</p>
+<h4 id="alaudiodevicestartmicrophonesrecordingfilename"><code>ALAudioDevice.startMicrophonesRecording(fileName)</code><a class="headerlink" href="#alaudiodevicestartmicrophonesrecordingfilename" title="Permanent link">#</a></h4>
+<p>该函数将麦克风收集到的信号直接记录在特定的文件中。如果文件后缀为.wav</p>
+<h4 id="alaudioplayer"><strong>ALAudioPlayer</strong> 模块<a class="headerlink" href="#alaudioplayer" title="Permanent link">#</a></h4>
+<p><code>ALAudioPlayer</code> 为多种音频文件格式及其关联的常用功能（播放，暂停，停止，循环等）提供播放服务。在所有情况下，最终的音频流都将发送到机器人的扬声器。并使用其绝对路径调用单个声音文件(mp3格式文件支持不是很好)：</p>
+<pre><code class="python">fileId = aup.post.playFile(&quot;/usr/share/naoqi/wav/filename.wav&quot;)
+</code></pre>
+
+<h4 id="alaudioplayerloadfilefilename"><code>ALAudioPlayer.loadFile(filename)</code><a class="headerlink" href="#alaudioplayerloadfilefilename" title="Permanent link">#</a></h4>
+<p>预载文件，但不播放它。当play函数被调用时，预加载文件是一种减少实际启动播放所需时间的方法。加载文件的播放可以通过调用ALAudioPlayer.play开始。 </p>
+<blockquote>
+<p><strong>Parameters:</strong>     <code>fileName</code>-文件的绝对路径</p>
+<p><strong><em>Returns:</em></strong>     播放任务的ID</p>
+</blockquote>
+<h4 id="alaudioplayerpause-taskid"><code>ALAudioPlayer.pause (taskID)</code><a class="headerlink" href="#alaudioplayerpause-taskid" title="Permanent link">#</a></h4>
+<p>暂停文件的播放，可以通过调用ALAudioPlayer.play开始。 </p>
+<blockquote>
+<p><strong>Parameters:</strong>     <code>taskID</code> -播放任务的ID</p>
+</blockquote>
+<h4 id="alaudioplayerplaytaskid-volumepan"><code>ALAudioPlayer.play(taskID, volume，pan)</code><a class="headerlink" href="#alaudioplayerplaytaskid-volumepan" title="Permanent link">#</a></h4>
+<p>开始播放指定的任务，具有特定的音量和立体声。 </p>
+<blockquote>
+<p><strong>Parameters:</strong>     </p>
+<p><code>taskID</code> -播放任务的ID</p>
+<p><code>volume</code> -  音量[0.0-1.0]</p>
+<p><code>pan</code> - 立体声(-1.0(左) - 1.0(右))</p>
+</blockquote>
+<h4 id="alaudioplayerplayfile-filename-volume-pan"><code>ALAudioPlayer.playFile (fileName, volume, pan)</code><a class="headerlink" href="#alaudioplayerplayfile-filename-volume-pan" title="Permanent link">#</a></h4>
+<p>启动对指定文件的回放, 这个调用相当于依次调用ALAudioPlayer.loadFile和ALAudioPlayer.play。 </p>
+<blockquote>
+<p><strong>Parameters:</strong>      </p>
+<p><code>fileName</code>-文件的绝对路径</p>
+<p><code>volume</code> -  音量[0.0-1.0]</p>
+<p><code>pan</code> - 立体声(-1.0(左) - 1.0(右))</p>
+</blockquote>
+<h4 id="alaudioplayersetvolume-taskid-volume"><code>ALAudioPlayer.setVolume (taskID, volume)</code><a class="headerlink" href="#alaudioplayersetvolume-taskid-volume" title="Permanent link">#</a></h4>
+<p>设置播放指定任务的音量级别。</p>
+<blockquote>
+<p><strong>Parameters:</strong>     </p>
+<p><code>taskID</code> -播放任务的ID</p>
+<p><code>volume</code> -  音量[0.0-1.0]</p>
+</blockquote>
+<h4 id="alaudioplayerstopall"><code>ALAudioPlayer.stopAll ()</code><a class="headerlink" href="#alaudioplayerstopall" title="Permanent link">#</a></h4>
+<p>停止所有播放文件</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../emotion/" class="btn btn-neutral float-right" title="机器人情绪感知">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../vision/" class="btn btn-neutral" title="机器人视觉"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../vision/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../emotion/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

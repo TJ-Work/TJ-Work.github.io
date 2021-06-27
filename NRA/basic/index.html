@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>基本操作 - Nao机器人手册</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "\u57fa\u672c\u64cd\u4f5c";
+    var mkdocs_page_input_path = "basic.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Nao机器人手册</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">简介</a>
+                    </li>
+                </ul>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">基本操作</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#_2">设置你的机器人</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#_3">下载机器人配置软件</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#ip">获取机器人ip地址</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#alproxy">使用ALProxy代理连接</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#python-sdk">下载安装Python SDK</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#windows">Windows</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#mac">Mac</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#linux">Linux</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_4">检查是否安装成功</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#alproxy_1">ALProxy</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_5">并行任务执行</a>
+    </li>
+    </ul>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../motion/">机器人运动</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../vision/">机器人视觉</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../audio/">机器人听觉</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../emotion/">机器人情绪感知</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../dance/">机器人跳舞实例解析</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../kick_ball/">机器人踢球实例解析</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Nao机器人手册</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>基本操作</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h2 id="_1">基本操作<a class="headerlink" href="#_1" title="Permanent link">#</a></h2>
+<h3 id="_2">设置你的机器人<a class="headerlink" href="#_2" title="Permanent link">#</a></h3>
+<h4 id="_3">下载机器人配置软件<a class="headerlink" href="#_3" title="Permanent link">#</a></h4>
+<p>在您的电脑上，根据您的操作系统下载<strong>Robot Settings安装程序</strong>版本。</p>
+<table>
+<thead>
+<tr>
+<th align="left">系统</th>
+<th align="left">版本</th>
+<th align="left">下载链接</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><strong>Linux</strong></td>
+<td align="left">Ubuntu 16.04 Xenial Xerus - 64bits only</td>
+<td align="left"><a href="https://community-static.aldebaran.com/resources/2.8.5/robot-settings-2.8.5.10-linux64-setup.run">Robot settings Linux 64 - Installer</a><a href="https://community-static.aldebaran.com/resources/2.8.5/robot-settings-2.8.5.10-linux64.tar.gz">Robot settings Linux 64 - Tar</a></td>
+</tr>
+<tr>
+<td align="left"><strong>Windows</strong></td>
+<td align="left">Microsoft Windows 10 - 64bits</td>
+<td align="left"><a href="https://community-static.aldebaran.com/resources/2.8.5/robot-settings-2.8.5.10-win64-vs2015-setup.exe">Robot settings Win 64 - Installer</a><a href="https://community-static.aldebaran.com/resources/2.8.5/robot-settings-2.8.5.10-win64-vs2015.zip">Robot settings Win 64 - Tar</a></td>
+</tr>
+<tr>
+<td align="left"><strong>Mac</strong></td>
+<td align="left">Mac OS X 10.12 Sierra</td>
+<td align="left"><a href="https://community-static.aldebaran.com/resources/2.8.5/robot-settings-2.8.5.10-mac64-setup.dmg">Robot settings Mac 64 - Installer</a><a href="https://community-static.aldebaran.com/resources/2.8.5/robot-settings-2.8.5.10-mac64.tar.gz">Robot settings Mac 64 - Tar</a></td>
+</tr>
+</tbody>
+</table>
+<p>下载完成直接双击安装，完成后打开。</p>
+<h4 id="ip">获取机器人ip地址<a class="headerlink" href="#ip" title="Permanent link">#</a></h4>
+<p>1.使用网线进行连接后，从电脑端的app中设置机器人连接无线网</p>
+<p><img alt="/sites/default/files/repository/70_html_nao/_images/note_ipaddress.png" src="../imgs/note_ipaddress.png" /></p>
+<p>2.快速按下<strong>NAO</strong>的胸部按钮一次。NAO会复述他的IP地址的四个数字，用<strong>点分隔</strong>。</p>
+<p>3.将IP地址填入ROBOT SETTING 界面，按ENTER键连接机器人NAO，并在用户界面中配置需要连接的WIFI，配置好即可拔掉网线，重新按压机器人胸部按钮，获得新的IP地址。</p>
+<p><img alt="/sites/default/files/repository/70_html_nao/_images/robot_settings_01.png" src="https://developer.softbankrobotics.com/sites/default/files/repository/70_html_nao/_images/robot_settings_01.png" /></p>
+<h3 id="alproxy">使用ALProxy代理连接<a class="headerlink" href="#alproxy" title="Permanent link">#</a></h3>
+<h4 id="python-sdk">下载安装Python SDK<a class="headerlink" href="#python-sdk" title="Permanent link">#</a></h4>
+<p><strong>支持的操作系统</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">系统</th>
+<th align="left">版本</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><strong>Linux</strong></td>
+<td align="left">Ubuntu 16.04 Xenial Xerus - 64bits only</td>
+</tr>
+<tr>
+<td align="left"><strong>Windows</strong></td>
+<td align="left">Microsoft Windows 10 <strong>64bits</strong></td>
+</tr>
+<tr>
+<td align="left"><strong>Mac</strong></td>
+<td align="left">Mac OS X 10.12 Sierra</td>
+</tr>
+</tbody>
+</table>
+<p>Mac10.12以上的版本也支持</p>
+<h4 id="windows">Windows<a class="headerlink" href="#windows" title="Permanent link">#</a></h4>
+<ol>
+<li>下载安装Python <strong>2.7</strong>. <a href="http://python.org/download/">下载链接</a></li>
+<li>下载<em>NAOqi for Python</em>: <code>pynaoqi-python2.7-2.8.6.23-win64-vs2015-20191127_152649.zip</code> <a href="https://community-static.aldebaran.com/resources/2.8.6/pynaoqi-python2.7-2.8.6.23-win64-vs2015-20191127_152649.zip">点击下载</a>.</li>
+<li>设置windows环境变量(网上可搜索添加教程)，添加一个用户变量</li>
+<li><code>variable</code>：PYTHONPATH       <code>value</code>:path\to\python-sdk\lib</li>
+<li>下载安装“Microsoft Visual C++ 2010 Redistributable Package (x86)</li>
+</ol>
+<h4 id="mac">Mac<a class="headerlink" href="#mac" title="Permanent link">#</a></h4>
+<ol>
+<li>确保 System Integrity Protection 被禁用。有关详细信息，请参考[<a href="https://developer.apple.com/library/content/documentation/Security/Conceptual/System_Integrity_Protection_Guide/ConfiguringSystemIntegrityProtection/ConfiguringSystemIntegrityProtection.html">Apple] Configuring System Integrity Protection </a></li>
+<li>安装python2.7<a href="http://python.org/download/">下载链接</a>: ，确保安装在<code>/usr/local/bin/python</code>, 而不是 <code>/usr/bin/python</code></li>
+<li>下载NAOqi Mac版本<code>pynaoqi-python2.7-2.8.6.23-mac64-20191127_144231.tar.gz</code>。<a href="https://community-static.aldebaran.com/resources/2.8.6/pynaoqi-python2.7-2.8.6.23-mac64-20191127_144231.tar.gz">点击下载</a>.</li>
+<li>设置环境变量</li>
+</ol>
+<pre><code class="bash">$ export PYTHONPATH=${PYTHONPATH}:/path/to/python-sdk/lib/python2.7/site-packages
+$ export DYLD_LIBRARY_PATH=${DYLD_LIBRARY_PATH}:/path/to/python-sdk/lib
+$ export QI_SDK_PREFIX=/path/to/python-sdk
+</code></pre>
+
+<h4 id="linux">Linux<a class="headerlink" href="#linux" title="Permanent link">#</a></h4>
+<ol>
+<li>确保Python版本为2.7</li>
+<li>下载安装NAOqi Linux版本，<a href="https://community-static.aldebaran.com/resources/2.8.6/pynaoqi-python2.7-2.8.6.23-linux64-20191127_152327.tar.gz">点击下载</a>.</li>
+<li>设置环境变量，也可更改bashrc文件。</li>
+</ol>
+<pre><code class="bash">$ export PYTHONPATH=${PYTHONPATH}:/path/to/python-sdk/lib/python2.7/site-packages
+$ export QI_SDK_PREFIX=/path/to/python-sdk
+</code></pre>
+
+<h4 id="_4">检查是否安装成功<a class="headerlink" href="#_4" title="Permanent link">#</a></h4>
+<p>在python2.7环境中使用</p>
+<pre><code class="python">import naoqi
+</code></pre>
+
+<h4 id="alproxy_1">ALProxy<a class="headerlink" href="#alproxy_1" title="Permanent link">#</a></h4>
+<p><code>ALProxy</code>是一个代理对象，它允许用户通过机器人Nao在局域网内的IP地址和端口（port）访问连接到的所有方法或模块（如：<code>ALTextToSpeech</code>模块等等。</p>
+<blockquote>
+<p>class(module_name, ip_address, port)</p>
+<ul>
+<li>module_name: 需要连接到的功能模块等</li>
+<li>ip_address: 机器人nao的ip地址</li>
+<li>port：Nao机器人侦听的端口（默认为9559）</li>
+</ul>
+</blockquote>
+<p>模块的每个方法都可以通过对象直接访问，例如以下例程通过<code>ALTextToSpeech</code>的<code>say</code>方法实现远程控制Nao机器人说Hello World：</p>
+<pre><code class="PYTHON">from naoqi import ALProxy
+tts = ALProxy(&quot;ALTextToSpeech&quot;, &quot;&lt;IP of your robot&gt;&quot;, 9559)
+tts.say(&quot;Hello, world!&quot;)
+</code></pre>
+
+<h3 id="_5">并行任务执行<a class="headerlink" href="#_5" title="Permanent link">#</a></h3>
+<p>用户初始化的每一个<code>ALProxy</code>对象都有一个名为<code>post</code>(代码中第五行)的属性，这能让每一个代理调用的方法同步=执行，而不需要按照正常python的执行顺序顺序执行，如以下实例实现了Nao机器人行走同时并说话：</p>
+<pre><code class="Python">from naoqi import ALProxy
+motion = ALProxy(&quot;ALMotion&quot;, &quot;&lt;IP of your robot&gt;&quot;, 9559)
+tts    = ALProxy(&quot;ALTextToSpeech&quot;, &quot;&lt;IP of your robot&gt;&quot;, 9559)
+motion.setStiffnesses(&quot;Body&quot;, 1.0)
+motion.moveInit()
+motion.post.moveTo(0.5, 0, 0)
+tts.say(&quot;I'm walking&quot;)
+</code></pre>
+
+<blockquote>
+<ol>
+<li>除非您将关节的刚度设置为非0 的，否则机器人不会移动。为此，只需调用<code>ALMotion.setStiffnesses</code>方法， 如代码中第四行所示</li>
+<li><code>ALMotion.moveInit()</code> API 将机器人初始化在一个合适的位置（准备移动）</li>
+<li><code>ALMotion.moveTo()</code> API 是机器人朝制定方向移动一段距离，单位（m) </li>
+<li><code>ALMotion.post</code>使并行执行能</li>
+</ol>
+</blockquote>
+<p>如果您需要等待直到给定任务完成，您可以使用ALProxy的wait方法，参数为post方法返回的任务id，示例如下：</p>
+<pre><code class="python">from naoqi import ALProxy
+motion = ALProxy(&quot;ALMotion&quot;, &quot;&lt;IP of your robot&gt;&quot;, 9559)
+motion.moveInit()
+id = motion.post.moveTo(0.5, 0, 0)
+motion.wait(id, 0)
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../motion/" class="btn btn-neutral float-right" title="机器人运动">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href=".." class="btn btn-neutral" title="简介"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href=".." style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../motion/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

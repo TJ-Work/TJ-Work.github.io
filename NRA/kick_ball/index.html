@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>机器人踢球实例解析 - Nao机器人手册</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "\u673a\u5668\u4eba\u8e22\u7403\u5b9e\u4f8b\u89e3\u6790";
+    var mkdocs_page_input_path = "kick_ball.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Nao机器人手册</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">简介</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../basic/">基本操作</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../motion/">机器人运动</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../vision/">机器人视觉</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../audio/">机器人听觉</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../emotion/">机器人情绪感知</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../dance/">机器人跳舞实例解析</a>
+                    </li>
+                </ul>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">机器人踢球实例解析</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#color_thresholdpy">color_threshold.py</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#kick_ballpy">kick_ball.py</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#_1">导入库</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#ip">设置机器人IP</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_2">初始化代理</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_3">初始化机器人姿态</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_4">获取图像</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_5">图像二值化</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_6">遍历图像，寻找是否有球</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_7">寻找图像中球的中心点</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_8">计算球和机器人的实际距离</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_9">机器人踢球动作</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_10">校准机器人的位置</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_11">主程序</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Nao机器人手册</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>机器人踢球实例解析</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h2 id="nao">Nao机器人踢球实例讲解<a class="headerlink" href="#nao" title="Permanent link">#</a></h2>
+<p>该实例包含color_threshold.py和kick_ball两个文件,其中color_threshold.py用于找到合适的阈值进行图像的二值化，kick_ball.py文件是踢球的主程序。</p>
+<h3 id="color_thresholdpy">color_threshold.py<a class="headerlink" href="#color_thresholdpy" title="Permanent link">#</a></h3>
+<p>在filename变量中填入图像文件所在的位置。</p>
+<pre><code class="python">#!/usr/bin/env python
+
+import cv2
+import numpy as np
+
+def callback(object):
+    pass
+
+def Choose_Color():
+    filename = 'Your file location'
+
+    image0 = cv2.imread(filename,1)
+    img = cv2.cvtColor(image0, cv2.COLOR_BGR2HSV)
+
+    img = cv2.resize(img,(int(img.shape[1] / 2),int(img.shape[0] / 2)))
+
+    cv2.imshow(&quot;image&quot;,img)
+
+    cv2.createTrackbar(&quot;H_min&quot;,&quot;image&quot;,50,255,callback)
+    cv2.createTrackbar(&quot;H_max&quot;,&quot;image&quot;,150,255,callback)
+
+    cv2.createTrackbar(&quot;S_min&quot;,&quot;image&quot;,0,255,callback)
+    cv2.createTrackbar(&quot;S_max&quot;,&quot;image&quot;,255,255,callback)
+
+    cv2.createTrackbar(&quot;V_min&quot;,&quot;image&quot;,0,255,callback)
+    cv2.createTrackbar(&quot;V_max&quot;,&quot;image&quot;,255,255,callback)
+
+    while(True):
+
+        H_min = cv2.getTrackbarPos(&quot;H_min&quot;,&quot;image&quot;,)
+        S_min = cv2.getTrackbarPos(&quot;S_min&quot;,&quot;image&quot;,)
+        V_min = cv2.getTrackbarPos(&quot;V_min&quot;,&quot;image&quot;,)
+
+        H_max = cv2.getTrackbarPos(&quot;H_max&quot;,&quot;image&quot;,)
+        S_max = cv2.getTrackbarPos(&quot;S_max&quot;,&quot;image&quot;,)
+        V_max = cv2.getTrackbarPos(&quot;V_max&quot;,&quot;image&quot;,)
+
+        lower_hsv = np.array([H_min, S_min, V_min])
+        upper_hsv = np.array([H_max, S_max, V_max])
+
+        mask = cv2.inRange(img,lower_hsv,upper_hsv)
+
+        cv2.imshow(&quot;mask&quot;, mask)
+
+        if cv2.waitKey(1) &amp; 0XFF == 27:
+            break
+
+Choose_Color()
+
+</code></pre>
+
+<p>运行程序后，出现交互界面，拖动HSV滑动条，使球的二值化效果达到最佳，记录下H,S,V的数值大小。</p>
+<h3 id="kick_ballpy">kick_ball.py<a class="headerlink" href="#kick_ballpy" title="Permanent link">#</a></h3>
+<h4 id="_1">导入库<a class="headerlink" href="#_1" title="Permanent link">#</a></h4>
+<pre><code class="python">from naoqi import ALProxy
+from PIL import Image
+import vision_definitions
+import numpy as np
+import motion
+import cv2
+import math
+import time
+</code></pre>
+
+<h4 id="ip">设置机器人IP<a class="headerlink" href="#ip" title="Permanent link">#</a></h4>
+<pre><code class="python"># 改为你自己的机器人的IP地址
+robotIP=&quot;192.168.2.115&quot;
+PORT = 9559
+</code></pre>
+
+<h4 id="_2">初始化代理<a class="headerlink" href="#_2" title="Permanent link">#</a></h4>
+<pre><code class="python">motionProxy = ALProxy(&quot;ALMotion&quot;, robotIP, PORT)
+posture = ALProxy(&quot;ALRobotPosture&quot;,robotIP, PORT)
+camProxy = ALProxy(&quot;ALVideoDevice&quot;, robotIP, PORT)
+speech = ALProxy(&quot;ALTextToSpeech&quot;,robotIP, PORT)
+</code></pre>
+
+<h4 id="_3">初始化机器人姿态<a class="headerlink" href="#_3" title="Permanent link">#</a></h4>
+<pre><code class="python">def Init():
+    posture.goToPosture('Stand',0.5)
+    setHeadAngle(0, 0.25)
+    motionProxy.setStiffnesses(&quot;Head&quot;, 0.0)
+</code></pre>
+
+<h4 id="_4">获取图像<a class="headerlink" href="#_4" title="Permanent link">#</a></h4>
+<pre><code class="python">def getImage(cameraID):
+
+    if (cameraID == 0):  # Top Camera
+        camProxy.setCameraParameter(&quot;test&quot;, 18, 0)
+    elif (cameraID == 1):  # Bottom Camera
+        camProxy.setCameraParameter(&quot;test&quot;, 18, 1)
+
+    resolution = vision_definitions.kVGA  # resolution
+    colorSpace = vision_definitions.kRGBColorSpace  # 
+    fps = 15
+
+    nameId = camProxy.subscribe(&quot;test&quot;, resolution, colorSpace, fps)  # 
+    naoImage = camProxy.getImageRemote(nameId)
+
+    imageWidth = naoImage[0]
+    imageHeight = naoImage[1]
+
+    array = naoImage[6] #  binary array of size height * width * nblayers containing image data.
+    im = Image.frombytes(&quot;RGB&quot;, (imageWidth, imageHeight), array)
+
+    im.save(&quot;raw_Image.png&quot;, &quot;PNG&quot;)  
+    camProxy.unsubscribe(nameId)
+</code></pre>
+
+<h4 id="_5">图像二值化<a class="headerlink" href="#_5" title="Permanent link">#</a></h4>
+<pre><code class="python">def Binarization(image, pattern):
+    # Setting the pattern
+    lower = []
+    upper = []
+    if (pattern == &quot;red&quot;):
+        lower = np.array([0, 129, 16]) #H_min,S_min,V_min
+        upper = np.array([21, 255, 255]) #H_max,S_max,V_max
+    elif (pattern == &quot;yellow&quot;):
+        lower = np.array([20, 100, 100]) #H_min,S_min,V_min
+        upper = np.array([34, 255, 255]) #H_max,S_max,V_max
+    elif (pattern == &quot;blue&quot;):
+        lower = np.array([110, 70, 70]) #H_min,S_min,V_min
+        upper = np.array([124, 255, 255]) #H_max,S_max,V_max
+    # BGR to HSV
+    hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+    # Binarization
+    mask = cv2.inRange(hsv, lower, upper)
+
+    # Opened the image
+    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (5, 5)) 
+    opened = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel)
+
+    cv2.imshow(&quot;Binarization&quot;, opened)
+    return opened
+</code></pre>
+
+<h4 id="_6">遍历图像，寻找是否有球<a class="headerlink" href="#_6" title="Permanent link">#</a></h4>
+<p>若有，则返回flag为true，(x,y)是目标点的坐标；否则返回false,(0,0)。</p>
+<pre><code class="python">def search(cameraID): 
+    getImage(cameraID)
+    img = cv2.imread(&quot;raw-Image.png&quot;)
+    bina = Binarization(img, &quot;red&quot;) # color
+    x, y = calcTheLocate(bina)
+    if (x == 0 and y == 0):
+        flag = False
+    else:
+        flag = True
+    return flag, x, y
+</code></pre>
+
+<h4 id="_7">寻找图像中球的中心点<a class="headerlink" href="#_7" title="Permanent link">#</a></h4>
+<pre><code class="python">def calcTheLocate(img):
+    col = np.ones(640)  
+    row = np.ones(480)  
+    colsum = []  
+    rowsum = []  
+    x = 0
+    xw = 0 # w:west
+    xe = 0 # e:est
+    y = 0
+    yn = 0 #n:north
+    ys = 0 #s:south
+    for i in range(0, 480):  
+        product = np.dot(col, img[i][:])  
+        colsum.append(product)
+    for i in range(0, 480):  
+        if (colsum[i] == max(colsum)):
+            y = i
+            val = max(colsum) / 255
+            yn = int(i - val)
+            ys = int(i + val)
+            break
+    for i in range(0, 640):
+        product = np.dot(row, img[:, i])
+        rowsum.append(product)
+    for i in range(0, 640):
+        if (rowsum[i] == max(rowsum)):
+            x = i
+            val = max(colsum) / 255
+            xw = int(val - i)
+            xe = int(val + i)
+            break
+    print(&quot;locate  x: &quot;, x, xw, xe, &quot;........ locate y :&quot;, y, yn, ys)
+
+    cv2.circle(img, (x, y), 5, (55, 255, 155), -1)
+    cv2.circle(img, (xw, y), 5, (55, 255, 155), -1)
+    cv2.circle(img, (xe, y), 5, (55, 255, 155), -1)
+    cv2.circle(img, (x, yn), 5, (55, 255, 155), -1)
+    cv2.circle(img, (x, ys), 5, (55, 255, 155), -1)
+    cv2.putText(img, &quot;center&quot;, (x - 20, y - 20),
+    cv2.FONT_HERSHEY_SIMPLEX, 0.75, (55, 255, 155), 2)
+
+    cv2.imshow(&quot;two&quot;, img)
+    cv2.imwrite(&quot;binalizeImage.png&quot;, img)
+    # cv2.waitKey(0)
+    return x, y
+</code></pre>
+
+<h4 id="_8">计算球和机器人的实际距离<a class="headerlink" href="#_8" title="Permanent link">#</a></h4>
+<p>该实例用的是底端的摄像头，若使用顶端的摄像头，需要重新测试校准D_min和D_max的值。</p>
+<pre><code class="python">def getDistance(x, y):
+
+    img_height = 480
+    img_width = 640
+
+    H = 477.33 # Height of bottom camera
+
+    # Calibrate the two parameters for your own case
+    D_min = 50 # mm, minimum distance
+    D_max = 800 # mm, maximum distance
+
+    beta = 56.3 * math.pi / 180.0  # HFOV
+
+    alpha = math.atan(D_min / H)
+    theta = math.atan(D_max / H) - alpha
+
+    diff_theta = (img_height - y) * theta / img_height
+    x_real = H * math.tan(alpha + diff_theta) /1000
+
+    y_unit = (x_real * 1000 + D_min) * math.tan(beta / 2)
+    y_real = -2 * y_unit * (x - img_width / 2) / img_width / 1000
+
+    turn = math.atan(y_real / x_real)
+
+    return x_real, y_real, turn
+</code></pre>
+
+<h4 id="_9">机器人踢球动作<a class="headerlink" href="#_9" title="Permanent link">#</a></h4>
+<p>本实例中，机器人用右脚踢球。</p>
+<pre><code class="python">def kick_ball():
+    names = list()
+    times = list()
+    keys = list()
+
+    names.append(&quot;HeadPitch&quot;)
+    times.append([ 1.16000, 2.68000, 3.20000, 4.24000, 5.12000, 6.12000])
+    keys.append([ [ 0.04363, [ 3, -0.38667, 0.00000], [ 3, 0.50667, 0.00000]], \
+        [ 0.26180, [ 3, -0.50667, 0.00000], [ 3, 0.17333, 0.00000]], [ 0.17453, \
+            [ 3, -0.17333, 0.06012], [ 3, 0.34667, -0.12023]], [ -0.27925, [ 3, -0.34667, 0.00000], \
+                [ 3, 0.29333, 0.00000]], [ -0.26180, [ 3, -0.29333, -0.00575], [ 3, 0.33333, 0.00653]], \
+                    [ -0.24241, [ 3, -0.33333, 0.00000], [ 3, 0.00000, 0.00000]]])
+
+    names.append(&quot;HeadYaw&quot;)
+    times.append([ 1.16000, 2.68000, 3.20000, 4.24000, 5.12000, 6.12000])
+    keys.append([ [ 0.00464, [ 3, -0.38667, 0.00000], [ 3, 0.50667, 0.00000]], \
+        [ -0.00149, [ 3, -0.50667, 0.00000], [ 3, 0.17333, 0.00000]], [ 0.00311, \
+            [ 3, -0.17333, 0.00000], [ 3, 0.34667, 0.00000]], [ -0.04905, [ 3, -0.34667, 0.00000], \
+                [ 3, 0.29333, 0.00000]], [ -0.03371, [ 3, -0.29333, -0.00382], [ 3, 0.33333, 0.00434]], \
+                    [ -0.02459, [ 3, -0.33333, 0.00000], [ 3, 0.00000, 0.00000]]])
+
+    names.append(&quot;LAnklePitch&quot;)
+    times.append([ 1.04000, 1.76000, 2.56000, 4.12000, 5.00000, 6.00000])
+    keys.append([ [ 0.03226, [ 3, -0.34667, 0.00000], [ 3, 0.24000, 0.00000]], \
+        [ 0.01745, [ 3, -0.24000, 0.00000], [ 3, 0.26667, 0.00000]], [ 0.01745, [ 3, -0.26667, 0.00000], \
+            [ 3, 0.52000, 0.00000]], [ 0.03491, [ 3, -0.52000, 0.00000], [ 3, 0.29333, 0.00000]], \
+                [ 0.03491, [ 3, -0.29333, 0.00000], [ 3, 0.33333, 0.00000]], [ 0.11501, [ 3, -0.33333, 0.00000], \
+                    [ 3, 0.00000, 0.00000]]])
+
+    names.append(&quot;LAnkleRoll&quot;)
+    times.append([ 1.04000, 1.76000, 2.56000, 4.12000, 5.00000, 6.00000])
+    keys.append([ [ 0.33161, [ 3, -0.34667, 0.00000], [ 3, 0.24000, 0.00000]], \
+        [ 0.36652, [ 3, -0.24000, 0.00000], [ 3, 0.26667, 0.00000]], [ 0.36652, \
+            [ 3, -0.26667, 0.00000], [ 3, 0.52000, 0.00000]], [ 0.36652, [ 3, -0.52000, 0.00000], \
+                [ 3, 0.29333, 0.00000]], [ 0.34732, [ 3, -0.29333, 0.01920], [ 3, 0.33333, -0.02182]], \
+                    [ -0.08433, [ 3, -0.33333, 0.00000], [ 3, 0.00000, 0.00000]]])
+
+    names.append(&quot;LElbowRoll&quot;)
+    times.append([ 1.08000, 2.60000, 3.12000, 4.16000, 5.04000, 6.04000])
+    keys.append([ [ -0.74096, [ 3, -0.36000, 0.00000], [ 3, 0.50667, 0.00000]],\
+        [ -1.03396, [ 3, -0.50667, 0.15621], [ 3, 0.17333, -0.05344]], [ -1.36990, \
+            [ 3, -0.17333, 0.00000], [ 3, 0.34667, 0.00000]], [ -1.02015, [ 3, -0.34667, -0.11965], \
+                [ 3, 0.29333, 0.10124]], [ -0.70722, [ 3, -0.29333, -0.10030], [ 3, 0.33333, 0.11398]], \
+                    [ -0.37732, [ 3, -0.33333, 0.00000], [ 3, 0.00000, 0.00000]]])
+
+    names.append(&quot;LElbowYaw&quot;)
+    times.append([ 1.08000, 2.60000, 3.12000, 4.16000, 5.04000, 6.04000])
+    keys.append([ [ -1.15353, [ 3, -0.36000, 0.00000], [ 3, 0.50667, 0.00000]], \
+        [ -0.95411, [ 3, -0.50667, -0.06096], [ 3, 0.17333, 0.02085]], [ -0.90809, [ 3, -0.17333, 0.00000], \
+            [ 3, 0.34667, 0.00000]], [ -1.23023, [ 3, -0.34667, 0.11716], [ 3, 0.29333, -0.09913]], \
+                [ -1.55697, [ 3, -0.29333, 0.00000], [ 3, 0.33333, 0.00000]], [ -1.14441, [ 3, -0.33333, 0.00000], \
+                    [ 3, 0.00000, 0.00000]]])
+
+    names.append(&quot;LHand&quot;)
+    times.append([ 1.08000, 2.60000, 3.12000, 4.16000, 5.04000, 6.04000])
+    keys.append([ [ 0.00317, [ 3, -0.36000, 0.00000], [ 3, 0.50667, 0.00000]], [ 0.00328, \
+        [ 3, -0.50667, -0.00003], [ 3, 0.17333, 0.00001]], [ 0.00329, [ 3, -0.17333, 0.00000], \
+            [ 3, 0.34667, 0.00000]], [ 0.00317, [ 3, -0.34667, 0.00000], [ 3, 0.29333, 0.00000]], \
+                [ 0.00325, [ 3, -0.29333, 0.00000], [ 3, 0.33333, 0.00000]], [ 0.00187, [ 3, -0.33333, 0.00000], \
+                    [ 3, 0.00000, 0.00000]]])
+
+    names.append(&quot;LHipPitch&quot;)
+    times.append([ 1.04000, 2.56000, 3.08000, 3.36000, 4.12000, 5.00000, 6.00000])
+    keys.append([ [ 0.23159, [ 3, -0.34667, 0.00000], [ 3, 0.50667, 0.00000]], [ 0.10580, \
+        [ 3, -0.50667, 0.00000], [ 3, 0.17333, 0.00000]], [ 0.12217, [ 3, -0.17333, 0.00000], \
+            [ 3, 0.09333, 0.00000]], [ 0.08433, [ 3, -0.09333, 0.00000], [ 3, 0.25333, 0.00000]], \
+                [ 0.09046, [ 3, -0.25333, -0.00614], [ 3, 0.29333, 0.00710]], [ 0.19171, [ 3, -0.29333, -0.01627], \
+                    [ 3, 0.33333, 0.01849]], [ 0.21020, [ 3, -0.33333, 0.00000], [ 3, 0.00000, 0.00000]]])
+
+    names.append(&quot;LHipRoll&quot;)
+    times.append([ 1.04000, 2.56000, 3.08000, 3.36000, 4.12000, 5.00000, 6.00000])
+    keys.append([ [ -0.34366, [ 3, -0.34667, 0.00000], [ 3, 0.50667, 0.00000]], [ -0.36820, \
+        [ 3, -0.50667, 0.00000], [ 3, 0.17333, 0.00000]], [ -0.36820, [ 3, -0.17333, 0.00000], \
+            [ 3, 0.09333, 0.00000]], [ -0.36513, [ 3, -0.09333, 0.00000], [ 3, 0.25333, 0.00000]], \
+                [ -0.36667, [ 3, -0.25333, 0.00000], [ 3, 0.29333, 0.00000]], [ -0.36513, [ 3, -0.29333, \
+                    -0.00153], [ 3, 0.33333, 0.00174]], [ 0.10129, [ 3, -0.33333, 0.00000], [ 3, 0.00000, 0.00000]]])
+
+    names.append(&quot;LHipYawPitch&quot;)
+    times.append([ 1.04000, 2.56000, 3.08000, 3.36000, 4.12000, 5.00000, 6.00000])
+    keys.append([ [ -0.18097, [ 3, -0.34667, 0.00000], [ 3, 0.50667, 0.00000]], [ -0.25307, \
+        [ 3, -0.50667, 0.00000], [ 3, 0.17333, 0.00000]], [ -0.06285, [ 3, -0.17333, -0.02279], \
+            [ 3, 0.09333, 0.01227]], [ -0.05058, [ 3, -0.09333, 0.00000], [ 3, 0.25333, 0.00000]], \
+                [ -0.18711, [ 3, -0.25333, 0.02986], [ 3, 0.29333, -0.03457]], [ -0.24386, [ 3, \
+                    -0.29333, 0.02058], [ 3, 0.33333, -0.02339]], [ -0.31903, [ 3, -0.33333, 0.00000], \
+                        [ 3, 0.00000, 0.00000]]])
+
+    names.append(&quot;LKneePitch&quot;)
+    times.append([ 1.04000, 1.76000, 2.56000, 3.08000, 3.36000, 4.12000, 5.00000, 6.00000])
+    keys.append([ [ -0.08727, [ 3, -0.34667, 0.00000], [ 3, 0.24000, 0.00000]], [ -0.08727, \
+        [ 3, -0.24000, 0.00000], [ 3, 0.26667, 0.00000]], [ -0.09235, [ 3, -0.26667, 0.00000], \
+            [ 3, 0.17333, 0.00000]], [ -0.07973, [ 3, -0.17333, 0.00000], [ 3, 0.09333, 0.00000]], \
+                [ -0.07973, [ 3, -0.09333, 0.00000], [ 3, 0.25333, 0.00000]], [ -0.07819, \
+                    [ 3, -0.25333, -0.00047], [ 3, 0.29333, 0.00055]], [ -0.07666, [ 3, -0.29333, 0.00000], \
+                        [ 3, 0.33333, 0.00000]], [ -0.09208, [ 3, -0.33333, 0.00000], [ 3, 0.00000, 0.00000]]])
+
+    names.append(&quot;LShoulderPitch&quot;)
+    times.append([ 1.08000, 2.60000, 3.12000, 4.16000, 5.04000, 6.04000])
+    keys.append([ [ 1.48649, [ 3, -0.36000, 0.00000], [ 3, 0.50667, 0.00000]], [ 1.35917, \
+        [ 3, -0.50667, 0.00000], [ 3, 0.17333, 0.00000]], [ 1.41746, [ 3, -0.17333, -0.02659], \
+            [ 3, 0.34667, 0.05318]], [ 1.59847, [ 3, -0.34667, -0.03988], [ 3, 0.29333, 0.03375]], \
+                [ 1.63835, [ 3, -0.29333, 0.00000], [ 3, 0.33333, 0.00000]], [ 1.50021, [ 3, -0.33333, 0.00000], \
+                    [ 3, 0.00000, 0.00000]]])
+
+    names.append(&quot;LShoulderRoll&quot;)
+    times.append([ 1.08000, 2.60000, 3.12000, 4.16000, 5.04000, 6.04000])
+    keys.append([ [ 0.02305, [ 3, -0.36000, 0.00000], [ 3, 0.50667, 0.00000]], [ 0.01998, \
+        [ 3, -0.50667, 0.00000], [ 3, 0.17333, 0.00000]], [ 0.13197, [ 3, -0.17333, 0.00000], \
+            [ 3, 0.34667, 0.00000]], [ 0.11816, [ 3, -0.34667, 0.01381], [ 3, 0.29333, -0.01168]], \
+                [ 0.02305, [ 3, -0.29333, 0.00000], [ 3, 0.33333, 0.00000]], [ 0.03524, [ 3, -0.33333, 0.00000], \
+                    [ 3, 0.00000, 0.00000]]])
+
+    names.append(&quot;LWristYaw&quot;)
+    times.append([ 1.08000, 2.60000, 3.12000, 4.16000, 5.04000, 6.04000])
+    keys.append([ [ 0.24435, [ 3, -0.36000, 0.00000], [ 3, 0.50667, 0.00000]], [ 0.23935, \
+        [ 3, -0.50667, 0.00500], [ 3, 0.17333, -0.00171]], [ 0.22094, [ 3, -0.17333, 0.00409], \
+            [ 3, 0.34667, -0.00818]], [ 0.20253, [ 3, -0.34667, 0.00554], [ 3, 0.29333, -0.00469]], \
+                [ 0.19026, [ 3, -0.29333, 0.01227], [ 3, 0.33333, -0.01394]], [ -0.12736, [ 3, -0.33333, 0.00000],\
+                     [ 3, 0.00000, 0.00000]]])
+
+    names.append(&quot;RAnklePitch&quot;)
+    times.append([ 1.04000, 1.32000, 1.76000, 2.24000, 2.56000, 2.84000, 3.08000, 3.36000, 3.68000, 4.12000, 5.00000, 6.00000])
+    keys.append([ [ 0.08727, [ 3, -0.34667, 0.00000], [ 3, 0.09333, 0.00000]], [ -0.08727, \
+        [ 3, -0.09333, 0.08824], [ 3, 0.14667, -0.13866]], [ -0.59341, [ 3, -0.14667, 0.00000], \
+            [ 3, 0.16000, 0.00000]], [ -0.40143, [ 3, -0.16000, -0.14312], [ 3, 0.10667, 0.09541]], \
+                [ 0.12217, [ 3, -0.10667, 0.00000], [ 3, 0.09333, 0.00000]], [ -0.05236, [ 3, -0.09333, 0.04386], \
+                    [ 3, 0.08000, -0.03759]], [ -0.12217, [ 3, -0.08000, 0.00000], [ 3, 0.09333, 0.00000]], \
+                        [ 0.24435, [ 3, -0.09333, 0.00000], [ 3, 0.10667, 0.00000]], [ -0.12217, [ 3, -0.10667, 0.12468], \
+                            [ 3, 0.14667, -0.17144]], [ -0.64403, [ 3, -0.14667, 0.00000], [ 3, 0.29333, 0.00000]], \
+                                [ -0.21991, [ 3, -0.29333, -0.11820], [ 3, 0.33333, 0.13432]], [ 0.11356, [ 3, -0.33333, 0.00000], \
+                                    [ 3, 0.00000, 0.00000]]])
+
+    names.append(&quot;RAnkleRoll&quot;)
+    times.append([ 1.04000, 2.56000, 3.08000, 3.36000, 4.12000, 5.00000, 6.00000])
+    keys.append([ [ 0.40143, [ 3, -0.34667, 0.00000], [ 3, 0.50667, 0.00000]], \
+        [ 0.10887, [ 3, -0.50667, 0.00000], [ 3, 0.17333, 0.00000]], [ 0.13802, \
+            [ 3, -0.17333, 0.00000], [ 3, 0.09333, 0.00000]], [ 0.00000, [ 3, -0.09333, 0.00000], \
+                [ 3, 0.25333, 0.00000]], [ 0.18097, [ 3, -0.25333, -0.05338], [ 3, 0.29333, 0.06181]], \
+                    [ 0.34558, [ 3, -0.29333, 0.00000], [ 3, 0.33333, 0.00000]], [ 0.05066, \
+                        [ 3, -0.33333, 0.00000], [ 3, 0.00000, 0.00000]]])
+
+    names.append(&quot;RElbowRoll&quot;)
+    times.append([ 1.00000, 2.52000, 3.04000, 4.08000, 4.96000, 5.96000])
+    keys.append([ [ 0.64117, [ 3, -0.33333, 0.00000], [ 3, 0.50667, 0.00000]], \
+        [ 1.15353, [ 3, -0.50667, -0.18364], [ 3, 0.17333, 0.06282]], [ 1.38056, [ 3, -0.17333, 0.00000], \
+            [ 3, 0.34667, 0.00000]], [ 1.36062, [ 3, -0.34667, 0.01994], [ 3, 0.29333, -0.01687]], \
+                [ 0.96024, [ 3, -0.29333, 0.14120], [ 3, 0.33333, -0.16046]], [ 0.45564, \
+                    [ 3, -0.33333, 0.00000], [ 3, 0.00000, 0.00000]]])
+    names.append(&quot;RElbowYaw&quot;)
+    times.append([ 1.00000, 2.52000, 3.04000, 4.08000, 4.96000, 5.96000])
+    keys.append([ [ 0.99714, [ 3, -0.33333, 0.00000], [ 3, 0.50667, 0.00000]],\
+        [ 0.86368, [ 3, -0.50667, 0.00000], [ 3, 0.17333, 0.00000]], [ 0.90970, \
+            [ 3, -0.17333, 0.00000], [ 3, 0.34667, 0.00000]], [ 0.63205, [ 3, -0.34667, 0.00000], \
+                [ 3, 0.29333, 0.00000]], [ 0.84834, [ 3, -0.29333, -0.13498], [ 3, 0.33333, 0.15339]], \
+                    [ 1.49714, [ 3, -0.33333, 0.00000], [ 3, 0.00000, 0.00000]]])
+
+    names.append(&quot;RHand&quot;)
+    times.append([ 1.00000, 2.52000, 3.04000, 4.08000, 4.96000, 5.96000])
+    keys.append([ [ 0.00129, [ 3, -0.33333, 0.00000], [ 3, 0.50667, 0.00000]], \
+        [ 0.00136, [ 3, -0.50667, 0.00000], [ 3, 0.17333, 0.00000]], [ 0.00132, \
+            [ 3, -0.17333, 0.00001], [ 3, 0.34667, -0.00002]], [ 0.00128, [ 3, -0.34667, 0.00000], \
+                [ 3, 0.29333, 0.00000]], [ 0.00133, [ 3, -0.29333, -0.00005], [ 3, 0.33333, 0.00006]], \
+                    [ 0.00391, [ 3, -0.33333, 0.00000], [ 3, 0.00000, 0.00000]]])
+
+    names.append(&quot;RHipPitch&quot;)
+    times.append([ 1.04000, 2.56000, 3.08000, 3.36000, 4.12000, 5.00000, 6.00000])
+    keys.append([ [ 0.16265, [ 3, -0.34667, 0.00000], [ 3, 0.50667, 0.00000]], [ -0.39726, \
+        [ 3, -0.50667, 0.31826], [ 3, 0.17333, -0.10888]], [ -1.11876, [ 3, -0.17333, 0.00190], \
+            [ 3, 0.09333, -0.00102]], [ -1.11978, [ 3, -0.09333, 0.00000], [ 3, 0.25333, 0.00000]], \
+                [ -0.78540, [ 3, -0.25333, -0.12796], [ 3, 0.29333, 0.14816]], [ -0.29142, [ 3, -0.29333, -0.15581], \
+                    [ 3, 0.33333, 0.17705]], [ 0.21318, [ 3, -0.33333, 0.00000], [ 3, 0.00000, 0.00000]]])
+
+    names.append(&quot;RHipRoll&quot;)
+    times.append([ 1.04000, 2.56000, 3.08000, 3.36000, 4.12000, 5.00000, 6.00000])
+    keys.append([ [ -0.47124, [ 3, -0.34667, 0.00000], [ 3, 0.50667, 0.00000]], [ -0.54001, \
+        [ 3, -0.50667, 0.00000], [ 3, 0.17333, 0.00000]], [ -0.32218, [ 3, -0.17333, -0.09040], \
+            [ 3, 0.09333, 0.04868]], [ -0.12276, [ 3, -0.09333, 0.00000], [ 3, 0.25333, 0.00000]], \
+                [ -0.36360, [ 3, -0.25333, 0.04547], [ 3, 0.29333, -0.05265]], [ -0.41713, [ 3, -0.29333, 0.00000], \
+                    [ 3, 0.33333, 0.00000]], [ -0.05825, [ 3, -0.33333, 0.00000], [ 3, 0.00000, 0.00000]]])
+
+    names.append(&quot;RKneePitch&quot;)
+    times.append([ 1.04000, 2.56000, 2.84000, 3.08000, 3.36000, 4.12000, 5.00000, 6.00000])
+    keys.append([ [ -0.08901, [ 3, -0.34667, 0.00000], [ 3, 0.50667, 0.00000]], \
+        [ 1.97575, [ 3, -0.50667, 0.00000], [ 3, 0.09333, 0.00000]], [ 1.97222, [ 3, -0.09333, 0.00353], \
+            [ 3, 0.08000, -0.00302]], [ 1.23918, [ 3, -0.08000, 0.26583], [ 3, 0.09333, -0.31013]], \
+                [ 0.24435, [ 3, -0.09333, 0.00000], [ 3, 0.25333, 0.00000]], [ 1.53589, [ 3, -0.25333, 0.00000], \
+                    [ 3, 0.29333, 0.00000]], [ 0.62430, [ 3, -0.29333, 0.25160], [ 3, 0.33333, -0.28591]], \
+                        [ -0.07666, [ 3, -0.33333, 0.00000], [ 3, 0.00000, 0.00000]]])
+
+    names.append(&quot;RShoulderPitch&quot;)
+    times.append([ 1.00000, 2.52000, 3.04000, 4.08000, 4.96000, 5.96000])
+    keys.append([ [ 1.52782, [ 3, -0.33333, 0.00000], [ 3, 0.50667, 0.00000]], [ 1.46033, \
+        [ 3, -0.50667, 0.00000], [ 3, 0.17333, 0.00000]], [ 1.47413, [ 3, -0.17333, 0.00000], \
+            [ 3, 0.34667, 0.00000]], [ 1.24096, [ 3, -0.34667, 0.00000], [ 3, 0.29333, 0.00000]], \
+                [ 1.51862, [ 3, -0.29333, -0.02707], [ 3, 0.33333, 0.03076]], [ 1.54938, [ 3, -0.33333, 0.00000], \
+                    [ 3, 0.00000, 0.00000]]])
+
+    names.append(&quot;RShoulderRoll&quot;)
+    times.append([ 1.00000, 2.52000, 3.04000, 4.08000, 4.96000, 5.96000])
+    keys.append([ [ -0.12268, [ 3, -0.33333, 0.00000], [ 3, 0.50667, 0.00000]], \
+        [ -0.04138, [ 3, -0.50667, 0.00000], [ 3, 0.17333, 0.00000]], [ -0.14569, [ 3, -0.17333, 0.00000], \
+            [ 3, 0.34667, 0.00000]], [ -0.13955, [ 3, -0.34667, 0.00000], [ 3, 0.29333, 0.00000]], [ -0.14722, \
+                [ 3, -0.29333, 0.00000], [ 3, 0.33333, 0.00000]], [ -0.03993, [ 3, -0.33333, 0.00000], [ 3, 0.00000, 0.00000]]])
+
+    names.append(&quot;RWristYaw&quot;)
+    times.append([ 1.00000, 2.52000, 3.04000, 4.08000, 4.96000, 5.96000])
+    keys.append([ [ -0.08727, [ 3, -0.33333, 0.00000], [ 3, 0.50667, 0.00000]], [ -0.07359, \
+        [ 3, -0.50667, -0.00911], [ 3, 0.17333, 0.00312]], [ -0.05058, [ 3, -0.17333, 0.00000], \
+            [ 3, 0.34667, 0.00000]], [ -0.06285, [ 3, -0.34667, 0.00000], [ 3, 0.29333, 0.00000]], \
+                [ 0.05680, [ 3, -0.29333, 0.00000], [ 3, 0.33333, 0.00000]], [ 0.00149, [ 3, -0.33333, 0.00000], \
+                    [ 3, 0.00000, 0.00000]]])
+
+    motionProxy.angleInterpolationBezier(names, times, keys)
+</code></pre>
+
+<h4 id="_10">校准机器人的位置<a class="headerlink" href="#_10" title="Permanent link">#</a></h4>
+<pre><code class="python">def getReady():
+    flag, x, y = search(1) #bottom camera
+    if x &lt; 330:
+        x, y, turn = getDistanceBottom(x, y)
+        print(&quot;adjust x:&quot;, x, &quot;y:&quot;, y)
+        speech.say(&quot;I am adjusting&quot;)
+        moveConfig = [[&quot;MaxStepFrequency&quot;, 1.0]]
+        motionProxy.moveTo(0, 1.2 * y, turn, moveConfig)
+</code></pre>
+
+<h4 id="_11">主程序<a class="headerlink" href="#_11" title="Permanent link">#</a></h4>
+<pre><code class="python">def main():
+    Init()   
+    flag = None
+
+    while (flag == None):
+        flag, x, y = search(1)
+        while (flag == False):
+            speech.say(&quot;I don't see the ball.&quot;)
+            motionProxy.moveTo(-0.1, 0.1, math.pi / 3)
+            flag, x, y = search(1)
+        speech.say(&quot;I see the ball&quot;)
+
+    print(&quot;final locate : &quot;, x, y)
+
+    x, y, turn = getDistance(x, y)
+
+    print(&quot;walk 0:&quot;, x, y, turn)
+    moveConfig = [[&quot;MaxStepFrequency&quot;, 1.0]]
+    motionProxy.moveTo(0.68 * x, 0.85 * y, 0.8 * turn, moveConfig)
+
+    getReady()
+    speech.say(&quot;I am ready&quot;)
+    kick_ball()
+
+    posture.goToPosture('Stand',0.5)
+
+    if __name__ == '__main__':
+        main()
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="../dance/" class="btn btn-neutral" title="机器人跳舞实例解析"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../dance/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>
