@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="img/favicon.ico">
+  <title>Others - Carla Rambot Docs</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Others";
+    var mkdocs_page_input_path = "others.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="js/jquery-2.1.1.min.js" defer></script>
+  <script src="js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="." class="icon icon-home"> Carla Rambot Docs</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="readme.html">carla_controller</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="get_started.html">Getting started with Carla_controller</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="need_read.html">Need read</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="carla_ros_bridge.html">Carla ros bridge</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="scenario_designer.html">Scenario designer</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="carla_rambot_adapters.html">Carla rambot adapters</a>
+	    </li>
+          
+            <li class="toctree-l1 current">
+		
+    <a class="current" href="others.html">Others</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l2"><a href="#carla_ackermann_control_ego_vehiclepy">carla_ackermann_control_ego_vehicle.py(有待改进)</a></li>
+    
+
+    <li class="toctree-l2"><a href="#scenario-runner">scenario runner</a></li>
+    
+
+    <li class="toctree-l2"><a href="#local_waypoint_publischer">local_waypoint_publischer</a></li>
+    
+
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="to_do_list.html">to do list</a>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href=".">Carla Rambot Docs</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Others</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h3 id="carla_ackermann_control_ego_vehiclepy">carla_ackermann_control_ego_vehicle.py(有待改进)</h3>
+<ul>
+<li>综述：该ROS节点将<a href="http://docs.ros.org/api/ackermann_msgs/html/msg/AckermannDrive.html">AckermannDrive</a>消息转换为CarlaEgoVehicleControl。该节点使用了pid 控制。</li>
+<li>PID控制器用于控制加速度/速度。</li>
+<li>读取Carla控制所需的车辆信息（通过carla ros bridge） </li>
+</ul>
+<pre><code>依赖：install python simple-pid 
+      pip install --user simple-pi
+</code></pre>
+
+<ul>
+<li>更多请参考<a href="https://github.com/carla-simulator/ros-bridge/tree/master/carla_ackermann_control">官网链接</a></li>
+<li>节点：/carla_ackermann_control_ego_vehicle</li>
+<li>订阅1：向 /Ramcontrol2carla 订阅 名称为 /carla/ego_vehicle/ackermann_cmd 的 AckermannDrive 类消息</li>
+<li>订阅2：向 /carla_ros_bridge 订阅 名称为 /carla/ego_vehicle/vehicle_status 的  CarlaEgoVehicleStatus 消息（订阅这个有啥用？）</li>
+<li>发布：向 /carla_ros_bridge 发布 名称为 /carla/ego_vehicle/vehicle_control_cmd 的 CarlaEgoVehicleControl 消息</li>
+<li>初始化订阅3：/carla/ego_vehicle/vehicle_info</li>
+<li>初始化发布2：/carla/ego_vehicle/ackermann_control/control_info</li>
+</ul>
+<h2 id="scenario-runner">scenario runner</h2>
+<ul>
+<li>综述：scenario runner 原本是carla 官方给出的一个 场景测试的 python 模块以及脚本。 其中本来已包含了ros 代理，本项目将其与 官方的ros 桥结合，以方便 <strong>自定义</strong> 路线功能。</li>
+<li>scenario runner 在本控制器项目中作为路线自定义的接口，以及返回对场景peformance的评价。</li>
+<li>订阅:rosbridge中的/clock</li>
+<li>发布:/local_way_point</li>
+<li>发布在定义的control_assessment.py中发布路线，消息格式为：Path，在path里是一个poses[]数组，PoseStamped()下的pose 为 geometry_msgs 的 Pose，其中的pose.location 中的x，y，z由waypoints赋值给他。最后将所有的pose append 至数组。得到path</li>
+<li>创建了一个control_assessment的场景后，该场景继承自basic_scenario,这个基础类初始化，创建了 behavior，已经critiria，最后在初始化的最后，开始调用setup，使其发布。</li>
+</ul>
+<h2 id="local_waypoint_publischer">local_waypoint_publischer</h2>
+<ul>
+<li>综述：通过waypoints和odometry 信息得出local_target_path</li>
+<li>订阅：/carla/ego_vehicle/waypoints;回调函数中将path中所有的pose添加至global_path.</li>
+<li>订阅：/carla/ego_vehicle/Odometry; 回调函数中更新了当前所处的waypoints的点，并在当前的waypoints往后取max_local_point_num(10)也就是最大的本地路径点，合成一个新的Path 消息publish出去</li>
+<li>发布：发布一个新的Path消息（如上）</li>
+</ul>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="to_do_list.html" class="btn btn-neutral float-right" title="to do list">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="carla_rambot_adapters.html" class="btn btn-neutral" title="Carla rambot adapters"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="carla_rambot_adapters.html" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="to_do_list.html" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '.';</script>
+    <script src="js/theme.js" defer></script>
+      <script src="search/main.js" defer></script>
+
+</body>
+</html>

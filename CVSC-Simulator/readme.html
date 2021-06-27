@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="img/favicon.ico">
+  <title>carla_controller - Carla Rambot Docs</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "carla_controller";
+    var mkdocs_page_input_path = "readme.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="js/jquery-2.1.1.min.js" defer></script>
+  <script src="js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="." class="icon icon-home"> Carla Rambot Docs</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1 current">
+		
+    <a class="current" href="readme.html">carla_controller</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l2"><a href="#carla_controller">carla_controller</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#introduction">Introduction</a></li>
+        
+            <li><a class="toctree-l3" href="#image">Image</a></li>
+        
+            <li><a class="toctree-l3" href="#instruction">Instruction</a></li>
+        
+            <li><a class="toctree-l3" href="#need_read">need_read</a></li>
+        
+            <li><a class="toctree-l3" href="#getting-started">Getting started</a></li>
+        
+            <li><a class="toctree-l3" href="#interpretation-for-some-packages">Interpretation for some packages</a></li>
+        
+        </ul>
+    
+
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="get_started.html">Getting started with Carla_controller</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="need_read.html">Need read</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="carla_ros_bridge.html">Carla ros bridge</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="scenario_designer.html">Scenario designer</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="carla_rambot_adapters.html">Carla rambot adapters</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="others.html">Others</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="to_do_list.html">to do list</a>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href=".">Carla Rambot Docs</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>carla_controller</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="carla_controller">carla_controller</h1>
+<h2 id="introduction">Introduction</h2>
+<p>Carla_controller 是由开源项目<a href="http://carla.org/">carla</a>改进而成，以支持控制器的开发，仿真和验证。仿真平台支持在现有地图上自定义障碍物和路线，并实时观测控制效果等功能。</p>
+<h2 id="image">Image</h2>
+<p>运行carla_controller 的界面如下(借用了ros的rviz)</p>
+<p><img alt="" src="readme.assets/carla_control_view.png" /></p>
+<h2 id="instruction">Instruction</h2>
+<p>carla_controller的ros_graph如下：</p>
+<p><img alt="" src="readme.assets/rqt_graph.png" /></p>
+<h2 id="need_read"><a href="need_read.html">need_read</a></h2>
+<p>在使用carla_controller仿真平台前，您有必要先了解一下知识，因为他和我们平台的运行息息相关，或许可以帮助你解决一些疑问，请点击上方<strong><em><a href="need_read.html">need_read</a></em></strong>！</p>
+<h2 id="getting-started"><a href="get_started.html">Getting started</a></h2>
+<p>现在你可以开始进行你的仿真了，点击上方<strong><em><a href="get_started.html">Getting started</a></em></strong>！</p>
+<h2 id="interpretation-for-some-packages">Interpretation for some packages</h2>
+<ol>
+<li><strong><em><a href="scenario_designer.html">scenario designer</a></em></strong></li>
+<li><strong><em><a href="carla_ros_bridge.html">carla_ros_bridge</a></em></strong></li>
+<li><strong><em><a href="carla_rambot_adapters.html">carla_rambot_adapters</a></em></strong></li>
+<li><strong><em><a href="others.html">other packages</a></em></strong></li>
+</ol>
+<table>
+  <tr>
+    <td bgcolor=#98FB98><font color="#FFFFFF"></font>！Important</font></td>
+  </tr>
+  <tr>
+    <td bgcolor=#F0FFF0><font color="#FFFFFF"></font>we still have some "to do list"</font></td>
+  </tr>
+</table>
+
+<p>Here are some " <strong><em><a href="to_do_list.html">to du list</a></em></strong>"</p>
+<p>ß</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="get_started.html" class="btn btn-neutral float-right" title="Getting started with Carla_controller">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+      
+        <span style="margin-left: 15px"><a href="get_started.html" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '.';</script>
+    <script src="js/theme.js" defer></script>
+      <script src="search/main.js" defer></script>
+
+</body>
+</html>

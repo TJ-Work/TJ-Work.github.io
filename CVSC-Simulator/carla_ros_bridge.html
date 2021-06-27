@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="img/favicon.ico">
+  <title>Carla ros bridge - Carla Rambot Docs</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Carla ros bridge";
+    var mkdocs_page_input_path = "carla_ros_bridge.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="js/jquery-2.1.1.min.js" defer></script>
+  <script src="js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="." class="icon icon-home"> Carla Rambot Docs</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="readme.html">carla_controller</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="get_started.html">Getting started with Carla_controller</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="need_read.html">Need read</a>
+	    </li>
+          
+            <li class="toctree-l1 current">
+		
+    <a class="current" href="carla_ros_bridge.html">Carla ros bridge</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l2"><a href="#carla_ros_bridge">carla_ros_bridge</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#parent">Parent类</a></li>
+        
+            <li><a class="toctree-l3" href="#carlarosbridge">CarlaRosBridge 类</a></li>
+        
+            <li><a class="toctree-l3" href="#_1">这个库的运行逻辑是这样的:</a></li>
+        
+        </ul>
+    
+
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="scenario_designer.html">Scenario designer</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="carla_rambot_adapters.html">Carla rambot adapters</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="others.html">Others</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="to_do_list.html">to do list</a>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href=".">Carla Rambot Docs</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Carla ros bridge</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h3 id="carla_ros_bridge">carla_ros_bridge</h3>
+<ul>
+<li>节点：carla_ros_bridge(client.py)</li>
+<li>订阅：向/carla_ackermann_control_ego_vehicle 订阅 carla/ego_vehicle/vehicle_control_cmd 消息</li>
+<li>发布：/carla/ego_vehicle/vehicle_control_info</li>
+<li>发布：/carla/ego_vehicle/vehicle_control_status</li>
+<li>发布：/carla/ego_vehicle/vehicle_control_odometry.</li>
+</ul>
+<h5 id="parent">Parent类</h5>
+<ul>
+<li>parent.py (创建actor， 并管理子对象的生命周期)</li>
+<li>初始化：carla_id = 0 ， 是桥对象，= -1，地图对象，&gt;0 是actor对象。</li>
+</ul>
+<h5 id="carlarosbridge">CarlaRosBridge 类</h5>
+<ul>
+<li>client.py 一个中 初始化了 CarlaRosBridge（或者BAG） 类（bridge.py），调用init 函数 和 run 函数。</li>
+<li>CarlaRosBridge 类继承自 Parent 类</li>
+<li>Parent 类是所有管理所有物体的源头；carla-ros-bridge 中类的继承关系如下图所示</li>
+<li>Parent -&gt; bridge, child -&gt; map, actor -&gt; vehicle, sensor, traffic.</li>
+<li>Vehicle -&gt; ego_vehicle</li>
+<li>Sensor -&gt; lidar, camera -&gt; rgb_camera, depth...</li>
+<li>订阅：/carla/ego_vehicle/vehicle_control_cmd 话题； </li>
+<li>发布：/carla/ego_vehicle/vehicle_control_info</li>
+<li>发布：/carla/ego_vehicle/vehicle_control_status</li>
+<li>发布：/carla/ego_vehicle/vehicle_control_odometry.</li>
+<li>以上有关车辆的发布和订阅均在 ego_vehicle 类里面，也就是ego_vehicle.py</li>
+<li>
+<p>vehicle_control_odometry</p>
+</li>
+<li></li>
+</ul>
+<pre><code>pose: 来自geometry_msgs的PoseWithCovariance,表示空间中含有不确定性的位姿信息
+twist:来自geometry_msgs的TwistWithCovariance,消息定义了包含不确定性的速度量，协方差矩阵按行分别表示;沿x方向速度的不确定性，沿y方向速度的不确定性，沿z方向速度的不确定性;
+      绕x转动角速度的不确定性，绕y轴转动的角速度的不确定性，绕z轴转动的角速度的不确定性;
+</code></pre>
+
+<pre><code>odometry.pose: 
+    1.odometry.pose.pose: 来自geometry_msgs 的Pose
+        1. position : 类型是geometry_msgs 的 Point
+            由carla.transform.location 类转化而来，该转化
+            直接赋值即可。变量类型一样。具体请参见tdransforms.py.
+            1.x
+            2.y
+            3.z
+        2. orientation:类型是自geometry_msgs的Quaternion
+            由carla.transform.rotation类转化而来,转化方式如下
+            一、先将欧拉角转换为弧度制；
+            二、调用python的api转换为quaternion；
+            三、geometry_msgs.Quatiernion中的x,y,xw,分别对应四元数的四位
+            1. x
+            2. y
+            3. z
+            4. w
+    2.odometry.pose.civariance: 协方差
+
+odometry.twist
+    1.odometry.twist.twist: 类型是geometry_msgs的Twist()
+        1.linear 类型：geometry_msgs的Vector3
+            由carla_velocity转化而来,不转到angular
+            1.x = carl_velocity.x
+            2.y = -carl_velocity.y
+            3.z = carl_velocity.z
+        2.angular 类型：geometry_msgs的的Vector3
+            1.x
+            2.y
+            3.z
+    2.odometry.twist.civariance: 协方差
+</code></pre>
+
+<ul>
+<li>vehicle_control_status(有用消息):</li>
+</ul>
+<pre><code>velocity:速度  
+acceleration：加速度   
+orientation:geometry_msgs/Quaternion （空间中代表旋转的四元数）  
+carla_msgs: CarlaEgoVehicleControl类
+（throttle油门，steer方向盘，brake刹车，hand_brake手刹,reverse倒车,gear档位 manual_gear_shift 手动换挡)
+</code></pre>
+
+<ul>
+<li>vehicle_control_info</li>
+</ul>
+<pre><code>id: vehcile 的 actor_id  
+type: actor.type_id blueprint id  
+rolename: 角色名字
+wheels: 轮胎
+    tire_friction:表示轮胎的摩擦
+    damping_rate:车轮的阻尼率
+    steer_angle: 车轮转向的角度(已转化为弧度单位)
+    disable_steering:最大转角
+    ----以下info中不包含----
+    max_brake_torque: 以Nm为单位的最大制动扭矩
+    max_handbrake_torque：以Nm为单位的最大手制动扭矩
+    location：位置（只读）
+max_rpm: 车辆发动机的最大RPM（最大功率转速）
+moi: 车辆发动机的惯性矩（车辆抵抗弯曲性质的能力）
+damping_rate_full_throttle:  油门最大时的阻尼率
+damping_rate)zero_throttle_clutch_engaged:  离合器踩上时油门为零的阻尼率
+damping_rate)zero_throttle_clutch_disengaged:离合器松开时油门为零的阻尼率
+use_gear_autobox:   true，车辆自动变速(变档)
+gear_switch_time:   档位切换时机
+clutch_strength:    车辆的离合器强度，以kg*m^2/s 测量
+mass:   以kg为测量单位的车辆质量
+drag_coefficient:  空气阻力系数
+center_of_mass:    车辆的质心
+----以下参数info类中不包含----
+final_ratio:  从变速器到车轮的固定比率
+GearPhysicsControl： 档位具体细节 (ratio、down_ratio,up_ratio)
+</code></pre>
+
+<ul>
+<li><a href="https://car.autohome.com.cn/shuyu/detail_18_21_296.html">max_rpm</a>；<a href="https://baike.baidu.com/item/%E6%83%AF%E6%80%A7%E7%9F%A9">moi</a>；</li>
+</ul>
+<h4 id="_1">这个库的运行逻辑是这样的:</h4>
+<ol>
+<li>运行client.py，构建bridge对象，初始化过程中有super.init()也就是parent.init()，bridge初
+   始化的时候订阅了world.on_tick(), 运行bridge.run()</li>
+<li>bridge.run()中仅仅是ros::spin</li>
+<li>每一个tick会执行:锁线程，更新时钟并publish信息;运行bridge.update_child_actors-&gt;
+   parent.update_child_actors, 更新actors。</li>
+<li>
+<p>更新actor的过程:</p>
+</li>
+<li>
+<p>a. 记录下新生的actor,除掉已经被删除的actor,并且让所有的actor进行一次update() </p>
+</li>
+<li>b. 这里进行了改写，属于Sensor的actor不会由parent.child_actor管理，而由
+  sensor_manager管理，sensor_manager.update()会让属于Sensor的所有actor进
+  行update.</li>
+<li>
+<p>c. 在记录新生Actor,除掉旧actor过程中，sensor_manager也如上文所说接管了
+  sensor类的所有actor.</p>
+</li>
+<li>
+<p>记录新生的actor时，会创建一个对应的sensor对象，比如说carla仿真中的一个rgbcamera
+   会使得sensor_manager创建一个ros_bridge中的rgb_camera对象，这个rgb_camera对象 的初始化会一步一步往上继承，在sensor类提供的init()中注册了一个listen函数; 这个listen 的订阅对应的函数_callback_sensor_data .里面调用sensor_data_updated负责将carla的 信息转化为msg信息，并调用camera或lidar的self.publish_ros_message;</p>
+</li>
+<li>传感器对象的这 个publish_ros_msg函数首先继承自child，而child则调用建立child过程中,输入的parent的 publish_ros_message;在parent.py 的新生actor语句中，我们建立sensor对象写的是 parent=self, 这个self继承了整个update、create_new方法的bridge对象，(尽管还有别的 路径，不过最终)最后会跑bridge.publish_ros_message，这个函数将ROS信息存到了输 出缓存中，在tick的订阅函数的最后一步输出。</li>
+<li>在bridge 的 tick 订阅函数 self._carla_update_child_actors 函数中进一步往下寻找，-&gt; self.update()-&gt;actor.update()-&gt;调用了vehicle.update()中发送消息。 self._prepare_msgs() 调用了 bridge.publish_ros_message() 函数，这个函数的输入是 物体 的消息，将其添加至缓存信息中，在send_msgs()函数中进一步输出。</li>
+</ol>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="scenario_designer.html" class="btn btn-neutral float-right" title="Scenario designer">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="need_read.html" class="btn btn-neutral" title="Need read"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="need_read.html" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="scenario_designer.html" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '.';</script>
+    <script src="js/theme.js" defer></script>
+      <script src="search/main.js" defer></script>
+
+</body>
+</html>
